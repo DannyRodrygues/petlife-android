@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo/logo.png" alt="PetLife Logo" width="170">
+  <img src="assets/logo/logomarca.png" alt="PetLife Logo" width="170">
 </p>
 
 <h1 align="center">PetLife</h1>
