@@ -63,6 +63,7 @@ fun PetLifeTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
+        shapes = PetLifeShapes,
         content = content,
     )
 }

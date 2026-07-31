@@ -159,6 +159,32 @@ Exemplos:
 - Cadastrar pet;
 - Confirmar agendamento.
 
+## Componentes implementados
+
+### PetLifePrimaryButton
+
+Botão utilizado para a ação principal da tela.
+
+Características:
+
+- largura adaptável;
+- altura padronizada;
+- cantos arredondados;
+- tipografia `labelLarge`;
+- utiliza a cor primária do tema.
+
+### PetLifeOutlinedButton
+
+Botão utilizado para ações secundárias.
+
+Características:
+
+- largura adaptável;
+- altura padronizada;
+- aparência de contorno;
+- cantos arredondados;
+- tipografia `labelLarge`.
+
 ### Botão secundário
 
 Usado para ações alternativas.

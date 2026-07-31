@@ -23,6 +23,9 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Registro da decisão sobre identidade visual e marca
 - Diretrizes para uso de imagens e ilustrações de pets
 - Especificação inicial da logomarca
+- Tokens reutilizáveis de espaçamento
+- Formas personalizadas do tema
+- Componentes reutilizáveis de botão
 
 ### Corrigido
 
