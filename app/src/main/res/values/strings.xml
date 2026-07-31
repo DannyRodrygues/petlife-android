@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">PetLife</string>
+
+    <string name="welcome_title">PetLife</string>
+    <string name="welcome_description">
+        Organize a vida do seu pet em um só lugar.
+    </string>
+
+    <string name="action_login">Entrar</string>
+    <string name="action_register">Criar conta</string>
 </resources>
