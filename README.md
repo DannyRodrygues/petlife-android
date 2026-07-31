@@ -1,33 +1,64 @@
-# PetLife
+<p align="center">
+  <img src="assets/logo/logo.png" alt="PetLife Logo" width="170">
+</p>
 
-Aplicativo Android para organização da rotina e dos cuidados de pets.
+<h1 align="center">PetLife</h1>
 
-## Status do projeto
+<p align="center">
+Organize a vida do seu pet em um só lugar.
+</p>
 
-Em desenvolvimento.
+<p align="center">
 
-## Objetivo
+![Android](https://img.shields.io/badge/Android-15-81D8D0?style=for-the-badge&logo=android&logoColor=white)
+![Kotlin](https://img.shields.io/badge/Kotlin-2.0-7656B5?style=for-the-badge&logo=kotlin&logoColor=white)
+![Jetpack Compose](https://img.shields.io/badge/Jetpack-Compose-7656B5?style=for-the-badge)
+![MVVM](https://img.shields.io/badge/Architecture-MVVM-81D8D0?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-7656B5?style=for-the-badge)
 
-O PetLife tem como objetivo auxiliar tutores no gerenciamento das
-informações e dos cuidados dos seus animais de estimação.
+</p>
 
-O aplicativo permitirá registrar pets, consultas, vacinas, banhos,
-medicamentos e outros compromissos relacionados à saúde e à rotina dos animais.
+---
 
-## Funcionalidades planejadas
+## 📱 Sobre o projeto
 
-- Cadastro e autenticação de usuários
-- Cadastro e gerenciamento de pets
-- Agenda de consultas e cuidados
-- Controle de vacinas
-- Registro de peso e informações de saúde
-- Persistência local com Room
-- Consumo de API REST
-- Consulta automática de endereço por CEP
-- Funcionamento offline
-- Dashboard com próximos compromissos
+O **PetLife** é um aplicativo Android desenvolvido em **Kotlin** para auxiliar tutores na organização da rotina, saúde e bem-estar de seus animais de estimação.
 
-## Tecnologias planejadas
+O projeto está sendo desenvolvido como parte do meu portfólio profissional, seguindo boas práticas de desenvolvimento Android, arquitetura limpa e documentação contínua durante todas as etapas de evolução da aplicação.
+
+---
+
+## 🚧 Status do projeto
+
+Projeto em desenvolvimento ativo.
+
+---
+
+## 🎯 Objetivo
+
+O PetLife tem como objetivo auxiliar tutores no gerenciamento das informações e dos cuidados dos seus animais de estimação.
+
+O aplicativo permitirá registrar pets, consultas, vacinas, banhos, medicamentos e outros compromissos relacionados à saúde e à rotina dos animais.
+
+---
+
+## ✨ Funcionalidades planejadas
+
+- 👤 Cadastro e autenticação de usuários
+- 🐶 Cadastro e gerenciamento de pets
+- 📅 Agenda de consultas e cuidados
+- 💉 Controle de vacinas
+- 💊 Registro de medicamentos
+- ⚖ Registro de peso e informações de saúde
+- 💾 Persistência local com Room
+- 🌐 Consumo de API REST
+- 📍 Consulta automática de endereço por CEP
+- 📴 Funcionamento offline
+- 📊 Dashboard com próximos compromissos
+
+---
+
+## 🛠 Tecnologias
 
 - Kotlin
 - Jetpack Compose
@@ -37,49 +68,106 @@ medicamentos e outros compromissos relacionados à saúde e à rotina dos animai
 - Retrofit
 - Hilt
 - Coroutines
-- Flow e StateFlow
+- Flow / StateFlow
 - Firebase Authentication
 - Navigation Compose
 - JUnit
 
-## Arquitetura
+---
+
+## 🏛 Arquitetura
 
 O projeto será desenvolvido utilizando uma arquitetura em camadas.
 
-### Camada de interface
+### Camada de Interface (UI)
 
-Responsável pelas telas, componentes visuais, estados da interface
-e interação com o usuário.
+Responsável pelas telas, componentes visuais, gerenciamento de estados e interação com o usuário.
 
-### Camada de dados
+### Camada de Dados (Data)
 
-Responsável pelo acesso ao banco de dados local, APIs e implementação
-dos repositórios.
+Responsável pelo acesso ao banco de dados local, consumo de APIs e implementação dos repositórios.
 
-### Camada de domínio
+### Camada de Domínio (Domain)
 
-Será adicionada quando houver regras de negócio reutilizáveis ou
-suficientemente complexas para justificar sua separação.
+Será adicionada quando houver regras de negócio reutilizáveis ou suficientemente complexas para justificar sua separação.
 
-## Requisitos atuais
+---
 
-- Android 8.0 ou superior
-- Minimum SDK 26
+## 📂 Estrutura do projeto
+
+```
+PetLife
+│
+├── app
+│   ├── core
+│   ├── feature
+│   ├── ui
+│   └── ...
+│
+├── docs
+│   ├── adr
+│   └── design
+│
+├── assets
+│   ├── logo
+│   ├── banner
+│   └── screenshots
+│
+└── README.md
+```
+
+---
+
+## 📸 Screenshots
+
+As telas serão adicionadas conforme o desenvolvimento do projeto.
+
+---
+
+## ⚙️ Requisitos
+
+- Android 8.0 (API 26) ou superior
 - Kotlin
 - Jetpack Compose
 
-## Ambiente utilizado
+---
+
+## 💻 Ambiente de desenvolvimento
 
 - Ubuntu 24.04 LTS
 - Android Studio Ladybug Feature Drop
 - Java 21
-- Dispositivo físico Android API 27
+- Dispositivo físico Android (API 27+)
 
-## Histórico inicial
+---
 
-- Configuração do ambiente Android
-- Atualização do Java para a versão 21
-- Ajuste de compatibilidade entre AndroidX, compileSdk e Android Gradle Plugin
-- Configuração do Git
-- Publicação inicial no GitHub
-- Execução do aplicativo em dispositivo físico
+## 📖 Histórico do projeto
+
+- ✅ Configuração do ambiente Android
+- ✅ Atualização do Java para a versão 21
+- ✅ Ajuste de compatibilidade entre AndroidX, compileSdk e Android Gradle Plugin
+- ✅ Configuração do Git
+- ✅ Publicação inicial no GitHub
+- ✅ Execução do aplicativo em dispositivo físico
+- ✅ Estrutura inicial baseada em Feature Packages
+- ✅ Criação do Design System
+- ✅ Definição da identidade visual do PetLife
+- ✅ Implementação da Welcome Screen
+
+---
+
+## 📚 Documentação
+
+Toda a evolução do projeto está sendo documentada durante o desenvolvimento.
+
+- `CHANGELOG.md` — Histórico das alterações realizadas.
+- `docs/adr/` — Registros de decisões arquiteturais (Architecture Decision Records).
+- `docs/design/` — Documentação do Design System.
+
+---
+
+## 👩‍💻 Desenvolvedora
+
+**Daniella Rodrigues**
+
+Desenvolvido como projeto de estudo e portfólio para demonstrar conhecimentos em desenvolvimento Android moderno utilizando Kotlin e Jetpack Compose.
