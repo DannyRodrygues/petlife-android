@@ -19,6 +19,10 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Paleta baseada em roxo, lilás e verde Tiffany
 - Tema claro e tema escuro personalizados
 - Desativação das cores dinâmicas para preservar a identidade da marca
+- Documentação inicial do Design System
+- Registro da decisão sobre identidade visual e marca
+- Diretrizes para uso de imagens e ilustrações de pets
+- Especificação inicial da logomarca
 
 ### Corrigido
 
