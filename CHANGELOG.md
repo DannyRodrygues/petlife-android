@@ -15,6 +15,10 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Tela inicial de boas-vindas
 - Estrutura inicial organizada por funcionalidades
 - Recursos de texto centralizados no arquivo strings.xml
+- Definição inicial da identidade visual do PetLife
+- Paleta baseada em roxo, lilás e verde Tiffany
+- Tema claro e tema escuro personalizados
+- Desativação das cores dinâmicas para preservar a identidade da marca
 
 ### Corrigido
 

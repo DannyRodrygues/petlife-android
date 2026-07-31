@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dannyrodrygues.petlife.R
+import androidx.compose.foundation.background
 
 @Composable
 fun WelcomeScreen(
@@ -34,6 +35,7 @@ fun WelcomeScreen(
         Text(
             text = stringResource(R.string.welcome_title),
             style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.primary,
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -41,6 +43,7 @@ fun WelcomeScreen(
         Text(
             text = stringResource(R.string.welcome_description),
             style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
         )
 

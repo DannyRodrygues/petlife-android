@@ -2,10 +2,15 @@ package com.dannyrodrygues.petlife.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+val PetLifePurple = Color(0xFF7656B5)
+val PetLifePurpleDark = Color(0xFF4F378B)
+val PetLifePurpleLight = Color(0xFFE9DFF7)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val PetLifeTiffany = Color(0xFF81D8D0)
+val PetLifeTiffanyDark = Color(0xFF3FAFA6)
+val PetLifeTiffanyLight = Color(0xFFDDF7F4)
+
+val PetLifeBackground = Color(0xFFF9F7FC)
+val PetLifeSurface = Color(0xFFFFFFFF)
+val PetLifeTextPrimary = Color(0xFF25232A)
+val PetLifeTextSecondary = Color(0xFF625F69)
