@@ -32,11 +32,15 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Tokens reutilizáveis de espaçamento
 - Formas personalizadas
 - Componentes reutilizáveis de botão
+- Componente raiz da aplicação com PetLifeApp
+- Navegação tipada com Navigation Compose
+- Destino inicial da tela de boas-vindas
+- Configuração do Kotlin Serialization para rotas tipadas
 
 ### Corrigido
 
 - Compatibilidade entre AndroidX, Android Gradle Plugin e compileSdk
-- Configuração necessária para executar o projeto em dispositivo físico
+- Configuração necess   ária para executar o projeto em dispositivo físico
 
 ### Alterado
 
