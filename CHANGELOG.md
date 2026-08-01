@@ -41,6 +41,8 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Campos de e-mail e senha
 - Links para recuperação de senha e criação de conta
 - Suporte a rolagem vertical e ajuste ao teclado
+- Logomarca aplicada à tela de boas-vindas
+- Screenshot da tela de boas-vindas adicionada à documentação
 
 ### Corrigido
 
@@ -57,3 +59,5 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Atualização da cor secundária para o azul da logomarca
 - Refinamento visual da tela de login
 - Ajuste de espaçamentos e hierarquia tipográfica
+- Tela de boas-vindas refinada com identidade visual da marca
+- Remoção do título textual duplicado na tela inicial

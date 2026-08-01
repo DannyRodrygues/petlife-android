@@ -145,6 +145,20 @@ Diretrizes iniciais:
 
 ---
 
+## Tela de Boas-vindas
+
+Diretrizes aplicadas:
+
+- logomarca centralizada;
+- ausência de título textual duplicado;
+- roxo como cor principal;
+- descrição centralizada;
+- ação principal em botão preenchido;
+- ação secundária em botão com contorno;
+- layout centralizado e limitado em largura.
+
+---
+
 ## Componentes planejados
 
 ### Botão primário

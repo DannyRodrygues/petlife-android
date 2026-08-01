@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.dannyrodrygues.petlife.feature.auth.login.LoginScreen
 import com.dannyrodrygues.petlife.feature.welcome.WelcomeScreen
 
 @Composable
@@ -19,8 +20,29 @@ fun AppNavHost(
     ) {
         composable<AppDestination.Welcome> {
             WelcomeScreen(
-                onLoginClick = {},
-                onRegisterClick = {},
+                onLoginClick = {
+                    navController.navigate(AppDestination.Login)
+                },
+                onRegisterClick = {
+                    // Será implementado quando a tela de cadastro existir.
+                },
+            )
+        }
+
+        composable<AppDestination.Login> {
+            LoginScreen(
+                onLoginClick = {
+                    // Será implementado quando criarmos a Home/autenticação.
+                },
+                onForgotPasswordClick = {
+                    // Será implementado quando a tela existir.
+                },
+                onRegisterClick = {
+                    // Será implementado quando a tela existir.
+                },
+                onBackClick = {
+                    navController.popBackStack()
+                },
             )
         }
     }

@@ -120,6 +120,12 @@ PetLife
 
 ## 📸 Screenshots
 
+### Tela de Boas-vindas
+
+<p align="center">
+  <img src="assets/screenshots/welcome-screen.png" alt="Tela de boas-vindas do PetLife" width="280">
+</p>
+
 ### Tela de Login
 
 <p align="center">
