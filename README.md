@@ -170,7 +170,6 @@ Toda a evolução do projeto está sendo documentada durante o desenvolvimento.
 
 ---
 
-## 👩‍💻 Desenvolvedora
 <h2>
     <img src="docs/images/daniella.png" width="42" alt="Daniella Rodrigues">
     Desenvolvedora
