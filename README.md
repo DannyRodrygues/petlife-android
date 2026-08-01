@@ -171,7 +171,10 @@ Toda a evolução do projeto está sendo documentada durante o desenvolvimento.
 ---
 
 ## 👩‍💻 Desenvolvedora
-
+<h2>
+    <img src="docs/images/daniella.png" width="42" alt="Daniella Rodrigues">
+    Desenvolvedora
+</h2>
 **Daniella Rodrigues**
 
 Desenvolvido como projeto de estudo e portfólio para demonstrar conhecimentos em desenvolvimento Android moderno utilizando Kotlin e Jetpack Compose.
