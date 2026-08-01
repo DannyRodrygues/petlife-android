@@ -13,9 +13,9 @@ private val PetLifeLightColorScheme = lightColorScheme(
     primaryContainer = PetLifePurpleLight,
     onPrimaryContainer = PetLifePurpleDark,
 
-    secondary = PetLifeTiffanyDark,
-    onSecondary = Color.White,
-    secondaryContainer = PetLifeTiffanyLight,
+    secondary = PetLifeBlue,
+    onSecondary = PetLifeTextPrimary,
+    secondaryContainer = PetLifeBlueLight,
     onSecondaryContainer = PetLifeTextPrimary,
 
     background = PetLifeBackground,
@@ -34,9 +34,9 @@ private val PetLifeDarkColorScheme = darkColorScheme(
     primaryContainer = PetLifePurpleDark,
     onPrimaryContainer = PetLifePurpleLight,
 
-    secondary = PetLifeTiffany,
+    secondary = PetLifeBlue,
     onSecondary = PetLifeTextPrimary,
-    secondaryContainer = PetLifeTiffanyDark,
+    secondaryContainer = PetLifeBlueDark,
     onSecondaryContainer = Color.White,
 
     background = Color(0xFF17141D),

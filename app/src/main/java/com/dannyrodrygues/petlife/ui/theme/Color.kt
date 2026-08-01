@@ -6,9 +6,9 @@ val PetLifePurple = Color(0xFF7656B5)
 val PetLifePurpleDark = Color(0xFF4F378B)
 val PetLifePurpleLight = Color(0xFFE9DFF7)
 
-val PetLifeTiffany = Color(0xFF81D8D0)
-val PetLifeTiffanyDark = Color(0xFF3FAFA6)
-val PetLifeTiffanyLight = Color(0xFFDDF7F4)
+val PetLifeBlue = Color(0xFF5ACDDA)
+val PetLifeBlueDark = Color(0xFF33B8C8)
+val PetLifeBlueLight = Color(0xFFDDF7FB)
 
 val PetLifeBackground = Color(0xFFF9F7FC)
 val PetLifeSurface = Color(0xFFFFFFFF)

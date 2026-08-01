@@ -36,6 +36,11 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Navegação tipada com Navigation Compose
 - Destino inicial da tela de boas-vindas
 - Configuração do Kotlin Serialization para rotas tipadas
+- Tela de login com identidade visual do PetLife
+- Logomarca aplicada à tela de autenticação
+- Campos de e-mail e senha
+- Links para recuperação de senha e criação de conta
+- Suporte a rolagem vertical e ajuste ao teclado
 
 ### Corrigido
 
@@ -49,3 +54,6 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Paleta oficial do projeto
 - Identidade visual do README
 - Inclusão da logomarca provisória
+- Atualização da cor secundária para o azul da logomarca
+- Refinamento visual da tela de login
+- Ajuste de espaçamentos e hierarquia tipográfica

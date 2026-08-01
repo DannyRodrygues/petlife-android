@@ -43,16 +43,15 @@ da marca.
 | PetLife Purple Dark | `#4F378B` |
 | PetLife Purple Light | `#E9DFF7` |
 
-### Verde Tiffany
+### Azul PetLife
 
-Utilizado como cor secundária, destaque complementar, indicadores
-positivos e elementos decorativos.
+Cor secundária inspirada na logomarca do projeto.
 
 | Nome | Hexadecimal |
 |---|---|
-| PetLife Tiffany | `#81D8D0` |
-| PetLife Tiffany Dark | `#3FAFA6` |
-| PetLife Tiffany Light | `#DDF7F4` |
+| PetLife Blue | `#5ACDDA` |
+| PetLife Blue Dark | `#33B8C8` |
+| PetLife Blue Light | `#DDF7FB` |
 
 ### Cores neutras
 
@@ -160,6 +159,17 @@ Exemplos:
 - Confirmar agendamento.
 
 ## Componentes implementados
+
+## Tela de Login
+
+Diretrizes aplicadas:
+
+- logomarca centralizada no topo;
+- roxo para ações principais;
+- azul PetLife para links e ações secundárias;
+- campos com cantos arredondados;
+- suporte a rolagem e teclado;
+- layout limitado a 420 dp de largura.
 
 ### PetLifePrimaryButton
 

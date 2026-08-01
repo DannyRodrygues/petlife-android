@@ -120,7 +120,11 @@ PetLife
 
 ## 📸 Screenshots
 
-As telas serão adicionadas conforme o desenvolvimento do projeto.
+### Tela de Login
+
+<p align="center">
+  <img src="assets/screenshots/login-screen.png" alt="Tela de Login do PetLife" width="280">
+</p>
 
 ---
 
