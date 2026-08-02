@@ -73,6 +73,7 @@ fun WelcomeScreen(
             text = stringResource(R.string.action_register),
             onClick = onRegisterClick,
             modifier = Modifier.widthIn(max = 320.dp),
+
         )
     }
 }

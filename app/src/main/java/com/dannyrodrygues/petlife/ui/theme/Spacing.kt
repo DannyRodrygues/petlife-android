@@ -9,4 +9,5 @@ object PetLifeSpacing {
     val Large = 24.dp
     val ExtraLarge = 32.dp
     val ExtraExtraLarge = 48.dp
+    val TextFieldHeight = 48.dp
 }

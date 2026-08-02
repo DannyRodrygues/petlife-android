@@ -126,10 +126,22 @@ PetLife
   <img src="assets/screenshots/welcome-screen.png" alt="Tela de boas-vindas do PetLife" width="280">
 </p>
 
+---
+
 ### Tela de Login
 
 <p align="center">
   <img src="assets/screenshots/login-screen.png" alt="Tela de Login do PetLife" width="280">
+</p>
+
+---
+
+### Tela de Cadastro
+
+<p align="center">
+  <img src="assets/screenshots/register-screen.png"
+       alt="Tela de cadastro"
+       width="280">
 </p>
 
 ---

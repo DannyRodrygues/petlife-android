@@ -9,4 +9,7 @@ sealed interface AppDestination {
 
     @Serializable
     data object Login : AppDestination
+
+    @Serializable
+    data object Register : AppDestination
 }

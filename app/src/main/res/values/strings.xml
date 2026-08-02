@@ -1,15 +1,22 @@
 <resources>
     <string name="app_name">PetLife</string>
 
+    <!-- Welcome -->
     <string name="welcome_title">PetLife</string>
     <string name="welcome_description">
         Organize a vida do seu pet em um só lugar.
     </string>
 
+    <!-- Ações compartilhadas -->
     <string name="action_login">Entrar</string>
     <string name="action_register">Criar conta</string>
+    <string name="action_back">Voltar</string>
+
+    <!-- Login -->
     <string name="login_title">Bem-vinda de volta!</string>
-    <string name="login_description">Entre para continuar cuidando da rotina dos seus pets.</string>
+    <string name="login_description">
+        Entre para continuar cuidando da rotina dos seus pets.
+    </string>
 
     <string name="email_label">E-mail</string>
     <string name="email_placeholder">Digite seu e-mail</string>
@@ -20,6 +27,22 @@
     <string name="action_forgot_password">Esqueci minha senha</string>
     <string name="login_no_account">Ainda não possui uma conta?</string>
     <string name="action_create_account">Criar conta</string>
-    <string name="action_back">Voltar
+
+    <!-- Cadastro -->
+    <string name="register_title">Crie sua conta</string>
+    <string name="register_description">
+        Cadastre-se para organizar os cuidados dos seus pets.
     </string>
+
+    <string name="name_label">Nome</string>
+    <string name="name_placeholder">Digite seu nome</string>
+
+    <string name="confirm_password_label">Confirmar senha</string>
+    <string name="confirm_password_placeholder">
+        Digite sua senha novamente
+    </string>
+
+    <string name="action_complete_register">Cadastrar</string>
+    <string name="register_has_account">Já possui uma conta?</string>
+    <string name="action_go_to_login">Entrar</string>
 </resources>

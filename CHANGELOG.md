@@ -44,6 +44,11 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Logomarca aplicada à tela de boas-vindas
 - Screenshot da tela de boas-vindas adicionada à documentação
 
+- Tela de cadastro de usuários
+- Navegação entre Welcome, Login e Cadastro
+- Campos para nome, e-mail, senha e confirmação de senha
+- Inclusão da logomarca na tela de cadastro
+
 ### Corrigido
 
 - Compatibilidade entre AndroidX, Android Gradle Plugin e compileSdk
@@ -61,3 +66,7 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Ajuste de espaçamentos e hierarquia tipográfica
 - Tela de boas-vindas refinada com identidade visual da marca
 - Remoção do título textual duplicado na tela inicial
+- Refinamento visual da tela de login
+- Refinamento visual da tela de boas-vindas
+- Ajustes de espaçamento nas telas de autenticação
+- Padronização da identidade visual das telas de autenticação

@@ -1,4 +1,4 @@
-package com.dannyrodrygues.petlife.feature.auth.login
+package com.dannyrodrygues.petlife.feature.auth.register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -38,18 +38,25 @@ import com.dannyrodrygues.petlife.core.components.PetLifePrimaryButton
 import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
 
 @Composable
-fun LoginScreen(
-    onLoginClick: () -> Unit,
-    onForgotPasswordClick: () -> Unit,
+fun RegisterScreen(
     onRegisterClick: () -> Unit,
+    onLoginClick: () -> Unit,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var name by rememberSaveable {
+        mutableStateOf("")
+    }
+
     var email by rememberSaveable {
         mutableStateOf("")
     }
 
     var password by rememberSaveable {
+        mutableStateOf("")
+    }
+
+    var confirmPassword by rememberSaveable {
         mutableStateOf("")
     }
 
@@ -73,15 +80,15 @@ fun LoginScreen(
             Image(
                 painter = painterResource(R.drawable.logo_petlife),
                 contentDescription = stringResource(R.string.app_name),
-                modifier = Modifier.size(100.dp),
+                modifier = Modifier.size(80.dp),
             )
 
             Spacer(
-                modifier = Modifier.height(PetLifeSpacing.Medium),
+                modifier = Modifier.height(4.dp),
             )
 
             Text(
-                text = stringResource(R.string.login_title),
+                text = stringResource(R.string.register_title),
                 style = MaterialTheme.typography.headlineLarge,
                 color = MaterialTheme.colorScheme.primary,
                 textAlign = TextAlign.Center,
@@ -92,10 +99,46 @@ fun LoginScreen(
             )
 
             Text(
-                text = stringResource(R.string.login_description),
+                text = stringResource(R.string.register_description),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
+            )
+
+            Spacer(
+                modifier = Modifier.height(PetLifeSpacing.Medium),
+            )
+
+            OutlinedTextField(
+                value = name,
+                onValueChange = { newName ->
+                    name = newName
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp),
+
+                textStyle = MaterialTheme.typography.bodyMedium,
+
+
+                label = {
+                    Text(
+                        text = stringResource(R.string.name_label),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                },
+                placeholder = {
+                    Text(
+                        text = stringResource(R.string.name_placeholder),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next,
+                ),
+                shape = MaterialTheme.shapes.medium,
             )
 
             Spacer(
@@ -109,16 +152,24 @@ fun LoginScreen(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(PetLifeSpacing.TextFieldHeight),
+                    .height(40.dp),
+
+                textStyle = MaterialTheme.typography.bodyMedium,
+
                 label = {
                     Text(
                         text = stringResource(R.string.email_label),
-                    )
+                        style = MaterialTheme.typography.bodySmall,
+
+                        )
                 },
                 placeholder = {
                     Text(
                         text = stringResource(R.string.email_placeholder),
-                    )
+                        style = MaterialTheme.typography.bodyMedium,
+
+
+                        )
                 },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
@@ -139,16 +190,62 @@ fun LoginScreen(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(PetLifeSpacing.TextFieldHeight),
+                    .height(40.dp),
+
+                textStyle = MaterialTheme.typography.bodyMedium,
+
                 label = {
                     Text(
                         text = stringResource(R.string.password_label),
-                    )
+                        style = MaterialTheme.typography.bodySmall,
+
+                        )
                 },
                 placeholder = {
                     Text(
                         text = stringResource(R.string.password_placeholder),
-                    )
+                        style = MaterialTheme.typography.bodyMedium,
+
+                        )
+                },
+                singleLine = true,
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Next,
+                ),
+                shape = MaterialTheme.shapes.medium,
+            )
+
+            Spacer(
+                modifier = Modifier.height(PetLifeSpacing.Medium),
+            )
+
+            OutlinedTextField(
+                value = confirmPassword,
+                onValueChange = { newConfirmPassword ->
+                    confirmPassword = newConfirmPassword
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp),
+
+                textStyle = MaterialTheme.typography.bodyMedium,
+
+                label = {
+                    Text(
+                        text = stringResource(R.string.confirm_password_label),
+                        style = MaterialTheme.typography.bodySmall,
+
+                        )
+                },
+                placeholder = {
+                    Text(
+                        text = stringResource(
+                            R.string.confirm_password_placeholder),
+                        style = MaterialTheme.typography.bodyMedium,
+
+                        )
                 },
                 singleLine = true,
                 visualTransformation = PasswordVisualTransformation(),
@@ -159,23 +256,13 @@ fun LoginScreen(
                 shape = MaterialTheme.shapes.medium,
             )
 
-            TextButton(
-                onClick = onForgotPasswordClick,
-                modifier = Modifier.align(Alignment.End),
-            ) {
-                Text(
-                    text = stringResource(R.string.action_forgot_password),
-                    color = MaterialTheme.colorScheme.secondary,
-                )
-            }
-
             Spacer(
-                modifier = Modifier.height(PetLifeSpacing.Medium),
+                modifier = Modifier.height(PetLifeSpacing.Large),
             )
 
             PetLifePrimaryButton(
-                text = stringResource(R.string.action_login),
-                onClick = onLoginClick,
+                text = stringResource(R.string.action_register),
+                onClick = onRegisterClick,
             )
 
             Spacer(
@@ -186,16 +273,16 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = stringResource(R.string.login_no_account),
+                    text = stringResource(R.string.register_has_account),
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                 )
 
                 TextButton(
-                    onClick = onRegisterClick,
+                    onClick = onLoginClick,
                 ) {
                     Text(
-                        text = stringResource(R.string.action_create_account),
+                        text = stringResource(R.string.action_go_to_login),
                         color = MaterialTheme.colorScheme.secondary,
                     )
                 }
@@ -211,3 +298,4 @@ fun LoginScreen(
         }
     }
 }
+

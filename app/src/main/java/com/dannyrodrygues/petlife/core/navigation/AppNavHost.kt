@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.dannyrodrygues.petlife.feature.auth.login.LoginScreen
+import com.dannyrodrygues.petlife.feature.auth.register.RegisterScreen
 import com.dannyrodrygues.petlife.feature.welcome.WelcomeScreen
 
 @Composable
@@ -24,7 +25,7 @@ fun AppNavHost(
                     navController.navigate(AppDestination.Login)
                 },
                 onRegisterClick = {
-                    // Será implementado quando a tela de cadastro existir.
+                    navController.navigate(AppDestination.Register)
                 },
             )
         }
@@ -32,13 +33,31 @@ fun AppNavHost(
         composable<AppDestination.Login> {
             LoginScreen(
                 onLoginClick = {
-                    // Será implementado quando criarmos a Home/autenticação.
+                    // Será implementado quando criarmos a Home.
                 },
                 onForgotPasswordClick = {
                     // Será implementado quando a tela existir.
                 },
                 onRegisterClick = {
-                    // Será implementado quando a tela existir.
+                    navController.navigate(AppDestination.Register)
+                },
+                onBackClick = {
+                    navController.popBackStack()
+                },
+            )
+        }
+
+        composable<AppDestination.Register> {
+            RegisterScreen(
+                onRegisterClick = {
+                    // Será implementado quando a autenticação existir.
+                },
+                onLoginClick = {
+                    navController.navigate(AppDestination.Login) {
+                        popUpTo(AppDestination.Register) {
+                            inclusive = true
+                        }
+                    }
                 },
                 onBackClick = {
                     navController.popBackStack()
