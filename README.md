@@ -120,30 +120,27 @@ PetLife
 
 ## 📸 Screenshots
 
-### Tela de Boas-vindas
-
 <p align="center">
-  <img src="assets/screenshots/welcome-screen.png" alt="Tela de boas-vindas do PetLife" width="280">
-</p>
 
----
+<a href="assets/screenshots/welcome-screen.png">
+  <img src="assets/screenshots/welcome-screen.png"
+       alt="Welcome Screen"
+       width="220">
+</a>
 
-### Tela de Login
+<a href="assets/screenshots/login-screen.png">
+  <img src="assets/screenshots/login-screen.png"
+       alt="Login Screen"
+       width="220">
+</a>
 
-<p align="center">
-  <img src="assets/screenshots/login-screen.png" alt="Tela de Login do PetLife" width="280">
-</p>
-
----
-
-### Tela de Cadastro
-
-<p align="center">
+<a href="assets/screenshots/register-screen.png">
   <img src="assets/screenshots/register-screen.png"
-       alt="Tela de cadastro"
-       width="280">
-</p>
+       alt="Register Screen"
+       width="220">
+</a>
 
+</p>
 ---
 
 ## ⚙️ Requisitos
