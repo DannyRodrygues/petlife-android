@@ -122,7 +122,8 @@ PetLife
 
 | Boas-vindas | Login | Cadastro | Recuperar Senha |
 |:-----------:|:-----:|:---------:|:---------------:|
-| <a href="assets/screenshots/welcome-screen.png">
+| 
+<a href="assets/screenshots/welcome-screen.png">
     <img src="assets/screenshots/welcome-screen.png"
          alt="Tela de Boas-vindas"
          width="140">
