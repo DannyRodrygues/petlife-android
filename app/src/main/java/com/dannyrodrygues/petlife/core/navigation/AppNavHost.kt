@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.dannyrodrygues.petlife.feature.auth.login.LoginScreen
 import com.dannyrodrygues.petlife.feature.auth.register.RegisterScreen
 import com.dannyrodrygues.petlife.feature.welcome.WelcomeScreen
+import com.dannyrodrygues.petlife.feature.auth.forgotpassword.ForgotPasswordScreen
 
 @Composable
 fun AppNavHost(
@@ -36,7 +37,7 @@ fun AppNavHost(
                     // Será implementado quando criarmos a Home.
                 },
                 onForgotPasswordClick = {
-                    // Será implementado quando a tela existir.
+                    navController.navigate(AppDestination.ForgotPassword)
                 },
                 onRegisterClick = {
                     navController.navigate(AppDestination.Register)
@@ -58,6 +59,16 @@ fun AppNavHost(
                             inclusive = true
                         }
                     }
+                },
+                onBackClick = {
+                    navController.popBackStack()
+                },
+            )
+        }
+        composable<AppDestination.ForgotPassword> {
+            ForgotPasswordScreen(
+                onSendRecoveryLinkClick = {
+                    // Será implementado quando integrarmos a autenticação.
                 },
                 onBackClick = {
                     navController.popBackStack()

@@ -45,4 +45,13 @@
     <string name="action_complete_register">Cadastrar</string>
     <string name="register_has_account">Já possui uma conta?</string>
     <string name="action_go_to_login">Entrar</string>
+
+    <!-- Recuperação de senha -->
+    <string name="forgot_password_title">Recuperar senha</string>
+
+    <string name="forgot_password_description">
+    Informe seu e-mail para receber as instruções de recuperação.
+</string>
+
+    <string name="action_send_recovery_link">Enviar link</string>
 </resources>

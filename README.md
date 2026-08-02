@@ -120,10 +120,28 @@ PetLife
 
 ## 📸 Screenshots
 
-| Boas-vindas | Login | Cadastro |
-|:-----------:|:-----:|:---------:|
-| <a href="assets/screenshots/welcome-screen.png"><img src="assets/screenshots/welcome-screen.png" alt="Tela de Boas-vindas" width="140"></a> | <a href="assets/screenshots/login-screen.png"><img src="assets/screenshots/login-screen.png" alt="Tela de Login" width="140"></a> | <a href="assets/screenshots/register-screen.png"><img src="assets/screenshots/register-screen.png" alt="Tela de Cadastro" width="140"></a> |
-
+| Boas-vindas | Login | Cadastro | Recuperar Senha |
+|:-----------:|:-----:|:---------:|:---------------:|
+| <a href="assets/screenshots/welcome-screen.png">
+    <img src="assets/screenshots/welcome-screen.png"
+         alt="Tela de Boas-vindas"
+         width="140">
+  </a> |
+  <a href="assets/screenshots/login-screen.png">
+    <img src="assets/screenshots/login-screen.png"
+         alt="Tela de Login"
+         width="140">
+  </a> |
+  <a href="assets/screenshots/register-screen.png">
+    <img src="assets/screenshots/register-screen.png"
+         alt="Tela de Cadastro"
+         width="140">
+  </a> |
+  <a href="assets/screenshots/forgot-password-screen.png">
+    <img src="assets/screenshots/forgot-password-screen.png"
+         alt="Tela de Recuperação de Senha"
+         width="140">
+  </a> |
 ---
 
 ## ⚙️ Requisitos

@@ -48,6 +48,8 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Navegação entre Welcome, Login e Cadastro
 - Campos para nome, e-mail, senha e confirmação de senha
 - Inclusão da logomarca na tela de cadastro
+- Tela de recuperação de senha
+- Navegação entre Login e Recuperação de Senha
 
 ### Corrigido
 
@@ -70,3 +72,4 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Refinamento visual da tela de boas-vindas
 - Ajustes de espaçamento nas telas de autenticação
 - Padronização da identidade visual das telas de autenticação
+- Refinamento do fluxo de autenticação
