@@ -120,27 +120,10 @@ PetLife
 
 ## 📸 Screenshots
 
-<p align="center">
+| Boas-vindas | Login | Cadastro |
+|:-----------:|:-----:|:---------:|
+| <a href="assets/screenshots/welcome-screen.png"><img src="assets/screenshots/welcome-screen.png" alt="Tela de Boas-vindas" width="140"></a> | <a href="assets/screenshots/login-screen.png"><img src="assets/screenshots/login-screen.png" alt="Tela de Login" width="140"></a> | <a href="assets/screenshots/register-screen.png"><img src="assets/screenshots/register-screen.png" alt="Tela de Cadastro" width="140"></a> |
 
-<a href="assets/screenshots/welcome-screen.png">
-  <img src="assets/screenshots/welcome-screen.png"
-       alt="Welcome Screen"
-       width="220">
-</a>
-
-<a href="assets/screenshots/login-screen.png">
-  <img src="assets/screenshots/login-screen.png"
-       alt="Login Screen"
-       width="220">
-</a>
-
-<a href="assets/screenshots/register-screen.png">
-  <img src="assets/screenshots/register-screen.png"
-       alt="Register Screen"
-       width="220">
-</a>
-
-</p>
 ---
 
 ## ⚙️ Requisitos
