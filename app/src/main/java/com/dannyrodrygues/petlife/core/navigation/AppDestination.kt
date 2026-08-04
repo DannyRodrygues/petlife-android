@@ -15,4 +15,7 @@ sealed interface AppDestination {
 
     @Serializable
     data object ForgotPassword : AppDestination
+
+    @Serializable
+    data object  Home : AppDestination
 }

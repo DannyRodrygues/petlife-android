@@ -1,6 +1,7 @@
 package com.dannyrodrygues.petlife.feature.auth.login
 
 import androidx.compose.foundation.Image
+import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -108,8 +109,7 @@ fun LoginScreen(
                     email = newEmail
                 },
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(PetLifeSpacing.TextFieldHeight),
+                    .fillMaxWidth(),
                 label = {
                     Text(
                         text = stringResource(R.string.email_label),
@@ -138,8 +138,7 @@ fun LoginScreen(
                     password = newPassword
                 },
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(PetLifeSpacing.TextFieldHeight),
+                    .fillMaxWidth(),
                 label = {
                     Text(
                         text = stringResource(R.string.password_label),

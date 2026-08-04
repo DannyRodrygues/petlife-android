@@ -9,6 +9,7 @@ import com.dannyrodrygues.petlife.feature.auth.login.LoginScreen
 import com.dannyrodrygues.petlife.feature.auth.register.RegisterScreen
 import com.dannyrodrygues.petlife.feature.welcome.WelcomeScreen
 import com.dannyrodrygues.petlife.feature.auth.forgotpassword.ForgotPasswordScreen
+import com.dannyrodrygues.petlife.feature.home.HomeScreen
 
 @Composable
 fun AppNavHost(
@@ -34,7 +35,11 @@ fun AppNavHost(
         composable<AppDestination.Login> {
             LoginScreen(
                 onLoginClick = {
-                    // Será implementado quando criarmos a Home.
+                    navController.navigate(AppDestination.Home) {
+                        popUpTo(AppDestination.Welcome){
+                            inclusive =true
+                        }
+                    }
                 },
                 onForgotPasswordClick = {
                     navController.navigate(AppDestination.ForgotPassword)
@@ -73,6 +78,13 @@ fun AppNavHost(
                 onBackClick = {
                     navController.popBackStack()
                 },
+            )
+        }
+        composable<AppDestination.Home> {
+            HomeScreen(
+                onAddPetClick = {
+                    // Será implementado quando criarmos o cadastro de pets.
+                }
             )
         }
     }

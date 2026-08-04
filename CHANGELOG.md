@@ -51,6 +51,11 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Tela de recuperação de senha
 - Navegação entre Login e Recuperação de Senha
 
+- Tela Home inicial.
+- Banner mobile exclusivo para a Home.
+- Estado vazio para lista de pets.
+- Botão "Cadastrar pet".
+
 ### Corrigido
 
 - Compatibilidade entre AndroidX, Android Gradle Plugin e compileSdk
@@ -73,3 +78,8 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Ajustes de espaçamento nas telas de autenticação
 - Padronização da identidade visual das telas de autenticação
 - Refinamento do fluxo de autenticação
+
+### Changed
+
+- Nova identidade visual da tela Home.
+- Banner otimizado para dispositivos móveis.

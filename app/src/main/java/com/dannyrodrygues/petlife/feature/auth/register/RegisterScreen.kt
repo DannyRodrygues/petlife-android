@@ -115,22 +115,18 @@ fun RegisterScreen(
                     name = newName
                 },
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(40.dp),
-
-                textStyle = MaterialTheme.typography.bodyMedium,
-
-
+                    .fillMaxWidth(),
+                textStyle = MaterialTheme.typography.bodySmall,
                 label = {
                     Text(
                         text = stringResource(R.string.name_label),
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.labelSmall,
                     )
                 },
                 placeholder = {
                     Text(
                         text = stringResource(R.string.name_placeholder),
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodySmall,
                     )
                 },
                 singleLine = true,
@@ -151,22 +147,20 @@ fun RegisterScreen(
                     email = newEmail
                 },
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(40.dp),
-
-                textStyle = MaterialTheme.typography.bodyMedium,
+                    .fillMaxWidth(),
+                textStyle = MaterialTheme.typography.bodySmall,
 
                 label = {
                     Text(
                         text = stringResource(R.string.email_label),
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.labelSmall,
 
                         )
                 },
                 placeholder = {
                     Text(
                         text = stringResource(R.string.email_placeholder),
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodySmall,
 
 
                         )
@@ -189,15 +183,13 @@ fun RegisterScreen(
                     password = newPassword
                 },
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(40.dp),
-
-                textStyle = MaterialTheme.typography.bodyMedium,
+                    .fillMaxWidth(),
+                textStyle = MaterialTheme.typography.bodySmall,
 
                 label = {
                     Text(
                         text = stringResource(R.string.password_label),
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.labelSmall,
 
                         )
                 },
@@ -227,15 +219,13 @@ fun RegisterScreen(
                     confirmPassword = newConfirmPassword
                 },
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(40.dp),
-
-                textStyle = MaterialTheme.typography.bodyMedium,
+                    .fillMaxWidth(),
+                textStyle = MaterialTheme.typography.bodySmall,
 
                 label = {
                     Text(
                         text = stringResource(R.string.confirm_password_label),
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.labelSmall,
 
                         )
                 },
@@ -243,7 +233,7 @@ fun RegisterScreen(
                     Text(
                         text = stringResource(
                             R.string.confirm_password_placeholder),
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodySmall,
 
                         )
                 },

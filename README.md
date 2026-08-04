@@ -120,8 +120,8 @@ PetLife
 
 ## 📸 Screenshots
 
-| Boas-vindas | Login | Cadastro | Recuperar Senha |
-|:-----------:|:-----:|:---------:|:---------------:|
+| Boas-vindas | Login | Cadastro | Recuperar Senha | Home |
+|:-----------:|:-----:|:---------:|:---------------:|------|
 | 
 <a href="assets/screenshots/welcome-screen.png">
     <img src="assets/screenshots/welcome-screen.png"
@@ -141,6 +141,11 @@ PetLife
   <a href="assets/screenshots/forgot-password-screen.png">
     <img src="assets/screenshots/forgot-password-screen.png"
          alt="Tela de Recuperação de Senha"
+         width="140">
+  </a> |
+  <a href="assets/screenshots/home-screen.png">
+    <img src="assets/screenshots/home-screen.png"
+         alt="Hoem"
          width="140">
   </a> |
 ---
