@@ -120,9 +120,6 @@ PetLife
 
 ## 📸 Screenshots
 
-| Boas-vindas | Login | Cadastro | Recuperar Senha | Home |
-|:-----------:|:-----:|:---------:|:---------------:|------|
-| 
 <a href="assets/screenshots/welcome-screen.png">
     <img src="assets/screenshots/welcome-screen.png"
          alt="Tela de Boas-vindas"
