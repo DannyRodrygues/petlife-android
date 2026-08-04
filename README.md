@@ -166,16 +166,16 @@ PetLife
 
 ## 📖 Histórico do projeto
 
-- ✅ Configuração do ambiente Android
+- ✅ Configuração do ambiente de desenvolvimento Android
 - ✅ Atualização do Java para a versão 21
-- ✅ Ajuste de compatibilidade entre AndroidX, compileSdk e Android Gradle Plugin
-- ✅ Configuração do Git
-- ✅ Publicação inicial no GitHub
+- ✅ Ajuste de compatibilidade entre AndroidX, compileSdk e Android Gradle
+- ✅ Configuração do Git e integração com GitHub
 - ✅ Execução do aplicativo em dispositivo físico
-- ✅ Estrutura inicial baseada em Feature Packages
-- ✅ Criação do Design System
-- ✅ Definição da identidade visual do PetLife
-- ✅ Implementação da Welcome Screen
+- ✅ Organização da arquitetura baseada em Feature Packages
+- ✅ Criação do Design System do PetLife
+- ✅ Definição da identidade visual (paleta, logomarca e componentes)
+- ✅ Implementação do fluxo completo de autenticação
+- ✅ Implementação da Home inicial com identidade visual personalizada
 
 ---
 
