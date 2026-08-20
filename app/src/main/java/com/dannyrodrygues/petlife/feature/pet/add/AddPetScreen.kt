@@ -32,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.dannyrodrygues.petlife.R
 import com.dannyrodrygues.petlife.core.components.PetLifePrimaryButton
+import com.dannyrodrygues.petlife.feature.pet.data.local.PetImageStorage
 import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
 import java.time.Instant
 import java.time.ZoneOffset
@@ -47,7 +49,16 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddPetScreen(
-    onSaveClick: () -> Unit,
+    onSaveClick: (
+        name: String,
+        species: String,
+        breed: String?,
+        gender: String,
+        birthDate: String?,
+        weight: Double?,
+        observations: String?,
+        photoUri: String?,
+    ) -> Unit,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -125,12 +136,19 @@ fun AddPetScreen(
 
     val datePickerState = rememberDatePickerState()
 
+    val context = LocalContext.current
+
     val photoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
     ) { uri ->
-        selectedImageUri = uri?.toString()
-    }
 
+        if (uri != null) {
+            selectedImageUri = PetImageStorage.saveImage(
+                context = context,
+                sourceUri = uri,
+            )
+        }
+    }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -438,7 +456,20 @@ fun AddPetScreen(
                                 !genderError
 
                     if (formIsValid) {
-                        onSaveClick()
+                        val parsedWeight = weight
+                            .replace(",", ".")
+                            .toDoubleOrNull()
+
+                        onSaveClick(
+                            name,
+                            species,
+                            breed.takeIf { it.isNotBlank() },
+                            gender,
+                            birthDate.takeIf { it.isNotBlank() },
+                            parsedWeight,
+                            observations.takeIf { it.isNotBlank() },
+                            selectedImageUri,
+                        )
                     }
                 },
             )

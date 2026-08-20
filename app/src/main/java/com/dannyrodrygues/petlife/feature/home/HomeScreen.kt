@@ -18,9 +18,13 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -37,11 +41,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.dannyrodrygues.petlife.R
+import com.dannyrodrygues.petlife.feature.pet.data.local.PetEntity
 import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
 
 @Composable
 fun HomeScreen(
+    pets: List<PetEntity>,
     onAddPetClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -52,6 +59,7 @@ fun HomeScreen(
         containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets(0),
     ) { innerPadding ->
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -59,6 +67,10 @@ fun HomeScreen(
                 .windowInsetsPadding(WindowInsets.safeDrawing)
                 .navigationBarsPadding(),
         ) {
+
+            /*
+             * Banner
+             */
             Image(
                 painter = painterResource(R.drawable.home_banner),
                 contentDescription = stringResource(R.string.app_name),
@@ -76,6 +88,10 @@ fun HomeScreen(
                         vertical = PetLifeSpacing.Large,
                     ),
             ) {
+
+                /*
+                 * Saudação
+                 */
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -109,6 +125,9 @@ fun HomeScreen(
                     modifier = Modifier.height(PetLifeSpacing.ExtraLarge),
                 )
 
+                /*
+                 * Título Seus pets
+                 */
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -141,58 +160,26 @@ fun HomeScreen(
                     ),
                 )
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(112.dp)
-                            .clip(CircleShape)
-                            .background(
-                                MaterialTheme.colorScheme.primary.copy(
-                                    alpha = 0.08f,
-                                ),
-                            ),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.empty_pet),
-                            contentDescription = null,
-                            modifier = Modifier.size(76.dp),
-                            contentScale = ContentScale.Fit,
-                        )
-                    }
+                /*
+                 * Conteúdo
+                 */
+                if (pets.isEmpty()) {
 
-                    Spacer(
-                        modifier = Modifier.height(PetLifeSpacing.ExtraLarge),
+                    EmptyPetsContent(
+                        modifier = Modifier.weight(1f),
                     )
 
-                    Text(
-                        text = stringResource(R.string.home_empty_pets),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        fontWeight = FontWeight.SemiBold,
-                        textAlign = TextAlign.Center,
-                    )
+                } else {
 
-                    Spacer(
-                        modifier = Modifier.height(PetLifeSpacing.Small),
-                    )
-
-                    Text(
-                        text = stringResource(
-                            R.string.home_empty_pets_description,
-                        ),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        textAlign = TextAlign.Center,
+                    PetsContent(
+                        pets = pets,
+                        modifier = Modifier.weight(1f),
                     )
                 }
 
+                /*
+                 * Botão Cadastrar pet
+                 */
                 Button(
                     onClick = onAddPetClick,
                     modifier = Modifier
@@ -221,6 +208,181 @@ fun HomeScreen(
                         text = stringResource(R.string.action_add_pet),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun EmptyPetsContent(
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Box(
+            modifier = Modifier
+                .size(112.dp)
+                .clip(CircleShape)
+                .background(
+                    MaterialTheme.colorScheme.primary.copy(
+                        alpha = 0.08f,
+                    ),
+                ),
+            contentAlignment = Alignment.Center,
+        ) {
+            Image(
+                painter = painterResource(R.drawable.empty_pet),
+                contentDescription = null,
+                modifier = Modifier.size(76.dp),
+                contentScale = ContentScale.Fit,
+            )
+        }
+
+        Spacer(
+            modifier = Modifier.height(PetLifeSpacing.ExtraLarge),
+        )
+
+        Text(
+            text = stringResource(R.string.home_empty_pets),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+            fontWeight = FontWeight.SemiBold,
+            textAlign = TextAlign.Center,
+        )
+
+        Spacer(
+            modifier = Modifier.height(PetLifeSpacing.Small),
+        )
+
+        Text(
+            text = stringResource(
+                R.string.home_empty_pets_description,
+            ),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+        )
+    }
+}
+
+@Composable
+private fun PetsContent(
+    pets: List<PetEntity>,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
+            .padding(
+                top = PetLifeSpacing.Medium,
+                bottom = PetLifeSpacing.Medium,
+            ),
+        verticalArrangement = Arrangement.spacedBy(
+            PetLifeSpacing.Medium,
+        ),
+    ) {
+        pets.forEach { pet ->
+            PetCard(
+                pet = pet,
+            )
+        }
+    }
+}
+
+@Composable
+private fun PetCard(
+    pet: PetEntity,
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.large,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 2.dp,
+        ),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(PetLifeSpacing.Medium),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+
+            /*
+             * Foto do pet
+             */
+            if (!pet.photoUri.isNullOrBlank()) {
+                AsyncImage(
+                    model = pet.photoUri,
+                    contentDescription = "Foto de ${pet.name}",
+                    modifier = Modifier
+                        .size(72.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop,
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .size(72.dp)
+                        .clip(CircleShape)
+                        .background(
+                            MaterialTheme.colorScheme.primary.copy(
+                                alpha = 0.08f,
+                            ),
+                        ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.empty_pet),
+                        contentDescription = null,
+                        modifier = Modifier.size(48.dp),
+                        contentScale = ContentScale.Fit,
+                    )
+                }
+            }
+
+            Spacer(
+                modifier = Modifier.width(PetLifeSpacing.Medium),
+            )
+
+            /*
+             * Informações
+             */
+            Column(
+                modifier = Modifier.weight(1f),
+            ) {
+                Text(
+                    text = pet.name,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.SemiBold,
+                )
+
+                Spacer(
+                    modifier = Modifier.height(
+                        PetLifeSpacing.ExtraSmall,
+                    ),
+                )
+
+                Text(
+                    text = pet.species,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+
+                if (!pet.breed.isNullOrBlank()) {
+                    Text(
+                        text = pet.breed,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             }

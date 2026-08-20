@@ -65,6 +65,12 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 
 - Adicionada biblioteca Coil para carregamento e exibição de imagens no Jetpack Compose.
 
+- Persistência local de pets com Room.
+- Cadastro real de pets no banco de dados.
+- Listagem de pets cadastrados na Home.
+- Persistência da foto do pet no armazenamento interno do aplicativo.
+- Exibição da foto do pet após fechar e reabrir o aplicativo.
+
 ### Corrigido
 
 - Compatibilidade entre AndroidX, Android Gradle Plugin e compileSdk
@@ -95,4 +101,8 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Refatoração da tela de cadastro de pets.
 - Criação de componentes reutilizáveis em `AddPetComponents.kt`.
 - Separação entre composição da tela e componentes visuais do formulário.
+- Integração da tela de cadastro de pets com `AddPetViewModel`.
+- Criação de `PetRepository`, `PetDao` e `PetDatabase`.
+- Integração da Home com `HomeViewModel` e dados persistidos.
+- Ajuste do fluxo de imagens para evitar perda de acesso após reiniciar o app.
 
