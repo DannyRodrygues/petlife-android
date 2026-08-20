@@ -63,4 +63,33 @@
     <string name="home_empty_pets">Nenhum pet cadastrado ainda.</string>
     <string name="home_empty_pets_description">Cadastre seu primeiro pet\npara começar.</string>
     <string name="action_add_pet">Cadastrar pet</string>
+
+    <!-- Cadastro de Pet -->
+    <string name="add_pet_title">Cadastrar pet</string>
+    <string name="add_pet_description">Informe os dados do seu pet para cuidarmos ainda melhor dele.</string>
+
+    <string name="add_pet_photo">Adicionar foto</string>
+
+    <string name="pet_name_label">Nome do pet</string>
+    <string name="pet_name_placeholder">Digite o nome do seu pet</string>
+
+    <string name="pet_species_label">Espécie</string>
+    <string name="pet_species_placeholder">Selecione a espécie</string>
+
+    <string name="pet_breed_label">Raça</string>
+    <string name="pet_breed_placeholder">Digite a raça do pet</string>
+
+    <string name="pet_gender_label">Sexo</string>
+    <string name="pet_gender_placeholder">Selecione o sexo</string>
+
+    <string name="pet_birth_date_label">Data de nascimento</string>
+    <string name="pet_birth_date_placeholder">Selecione a data</string>
+
+    <string name="pet_weight_label">Peso (kg)</string>
+    <string name="pet_weight_placeholder">Ex.: 5,4</string>
+
+    <string name="pet_observations_label">Observações</string>
+    <string name="pet_observations_placeholder">Informações adicionais sobre seu pet (opcional)</string>
+
+    <string name="action_save_pet">Salvar pet</string>
 </resources>

@@ -56,6 +56,15 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Estado vazio para lista de pets.
 - Botão "Cadastrar pet".
 
+- Tela de cadastro de pets.
+- Seleção de espécie e sexo por menus.
+- Date Picker para data de nascimento.
+- Photo Picker para seleção de imagem da galeria.
+- Pré-visualização circular da foto do pet com Coil.
+- Validação dos campos obrigatórios de nome, espécie e sexo.
+
+- Adicionada biblioteca Coil para carregamento e exibição de imagens no Jetpack Compose.
+
 ### Corrigido
 
 - Compatibilidade entre AndroidX, Android Gradle Plugin e compileSdk
@@ -83,3 +92,7 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 
 - Nova identidade visual da tela Home.
 - Banner otimizado para dispositivos móveis.
+- Refatoração da tela de cadastro de pets.
+- Criação de componentes reutilizáveis em `AddPetComponents.kt`.
+- Separação entre composição da tela e componentes visuais do formulário.
+

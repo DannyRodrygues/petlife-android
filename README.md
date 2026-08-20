@@ -42,20 +42,33 @@ O aplicativo permitirá registrar pets, consultas, vacinas, banhos, medicamentos
 
 ---
 
-## ✨ Funcionalidades planejadas
+## ✨ Funcionalidades implementadas
 
-- 👤 Cadastro e autenticação de usuários
-- 🐶 Cadastro e gerenciamento de pets
+- 🔐 Fluxo de autenticação e navegação entre telas
+- 🏠 Home inicial do aplicativo
+- 🐶 Cadastro de pets com formulário estruturado
+- 🐾 Seleção de espécie e sexo
+- 📅 Seleção de data de nascimento com Date Picker
+- 📷 Seleção de foto do pet pela galeria
+- 🖼️ Pré-visualização da foto selecionada
+- ✅ Validação dos campos obrigatórios
+
+---
+
+## 🚀 Funcionalidades planejadas
+
+- 👤 Autenticação de usuários com Firebase
+- 🐶 Persistência e gerenciamento de pets
 - 📅 Agenda de consultas e cuidados
 - 💉 Controle de vacinas
 - 💊 Registro de medicamentos
-- ⚖ Registro de peso e informações de saúde
+- ⚖️ Registro de peso e informações de saúde
 - 💾 Persistência local com Room
 - 🌐 Consumo de API REST
 - 📍 Consulta automática de endereço por CEP
 - 📴 Funcionamento offline
 - 📊 Dashboard com próximos compromissos
-
+- 
 ---
 
 ## 🛠 Tecnologias
@@ -142,9 +155,14 @@ PetLife
   </a> |
   <a href="assets/screenshots/home-screen.png">
     <img src="assets/screenshots/home-screen.png"
-         alt="Hoem"
+         alt="Tela Home"
          width="140">
   </a> |
+   <a href="assets/screenshots/add-pet-screen.png">
+  <img src="assets/screenshots/add-pet-screen.png"
+       alt="Tela de Cadastro de Pet"
+       width="140">
+</a>
 ---
 
 ## ⚙️ Requisitos

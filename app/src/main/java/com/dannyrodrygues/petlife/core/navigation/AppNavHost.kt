@@ -5,11 +5,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.dannyrodrygues.petlife.feature.auth.forgotpassword.ForgotPasswordScreen
 import com.dannyrodrygues.petlife.feature.auth.login.LoginScreen
 import com.dannyrodrygues.petlife.feature.auth.register.RegisterScreen
-import com.dannyrodrygues.petlife.feature.welcome.WelcomeScreen
-import com.dannyrodrygues.petlife.feature.auth.forgotpassword.ForgotPasswordScreen
 import com.dannyrodrygues.petlife.feature.home.HomeScreen
+import com.dannyrodrygues.petlife.feature.pet.add.AddPetScreen
+import com.dannyrodrygues.petlife.feature.welcome.WelcomeScreen
 
 @Composable
 fun AppNavHost(
@@ -83,7 +84,18 @@ fun AppNavHost(
         composable<AppDestination.Home> {
             HomeScreen(
                 onAddPetClick = {
-                    // Será implementado quando criarmos o cadastro de pets.
+                    navController.navigate(AppDestination.AddPet)
+                }
+            )
+        }
+
+        composable<AppDestination.AddPet> {
+            AddPetScreen(
+                onSaveClick = {
+                    // Será implementado quando criarmos o Room.
+                },
+                onBackClick = {
+                    navController.popBackStack()
                 }
             )
         }
