@@ -59,6 +59,11 @@ O aplicativo permitirá registrar pets, consultas, vacinas, banhos, medicamentos
 - 🔔 Exibição da próxima dose de vacina
 - 📋 Histórico de vacinas por pet
 - 🔗 Relacionamento entre pets e vacinas
+- 💉 Cadastro e acompanhamento de vacinas por pet
+- 🔔 Controle de próximas doses
+- 📋 Histórico de vacinas aplicadas
+- ✏️ Edição dos dados do pet
+- 🔗 Relacionamento entre pets e vacinas no Room
 
 ---
 
@@ -206,6 +211,11 @@ PetLife
 - ✅ Implementação do módulo de vacinas
 - ✅ Relacionamento entre pets e vacinas no banco de dados
 - ✅ Implementação de migrations do Room para evolução do banco
+- ✅ Implementação da tela de detalhes e edição do pet
+- ✅ Implementação do módulo de vacinas
+- ✅ Cadastro, histórico e controle de próximas doses
+- ✅ Relacionamento entre pets e vacinas no banco local
+- ✅ Evolução do banco Room com migration preservando os dados existentes
 
 ---
 

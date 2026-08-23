@@ -2,6 +2,7 @@ package com.dannyrodrygues.petlife.feature.pet.vaccines.add
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,13 +11,11 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
@@ -28,9 +27,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import com.dannyrodrygues.petlife.core.components.PetLifePrimaryButton
+import com.dannyrodrygues.petlife.feature.pet.add.PetDateField
+import com.dannyrodrygues.petlife.feature.pet.add.PetFieldLabel
+import com.dannyrodrygues.petlife.feature.pet.add.PetObservationsField
+import com.dannyrodrygues.petlife.feature.pet.add.PetRequiredTextField
+import com.dannyrodrygues.petlife.feature.pet.add.PetTextField
 import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
 import java.time.Instant
 import java.time.ZoneOffset
@@ -50,6 +52,7 @@ fun AddVaccineScreen(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+
     var name by rememberSaveable {
         mutableStateOf("")
     }
@@ -83,6 +86,7 @@ fun AddVaccineScreen(
     }
 
     val applicationDatePickerState = rememberDatePickerState()
+
     val nextDoseDatePickerState = rememberDatePickerState()
 
     Column(
@@ -94,19 +98,38 @@ fun AddVaccineScreen(
             .navigationBarsPadding()
             .padding(
                 horizontal = PetLifeSpacing.Large,
-                vertical = PetLifeSpacing.Large,
+                vertical = PetLifeSpacing.Medium,
             ),
     ) {
 
-        Text(
-            text = "Adicionar vacina",
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.primary,
-            fontWeight = FontWeight.SemiBold,
-        )
+        /*
+         * Cabeçalho
+         */
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+
+            TextButton(
+                onClick = onBackClick,
+            ) {
+                Text(
+                    text = "←",
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
+
+            Text(
+                text = "Adicionar vacina",
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
 
         Spacer(
-            modifier = Modifier.height(PetLifeSpacing.ExtraSmall),
+            modifier = Modifier.height(PetLifeSpacing.Small),
         )
 
         Text(
@@ -120,19 +143,18 @@ fun AddVaccineScreen(
         )
 
         /*
-         * Nome da vacina
+         * Nome
          */
-        Text(
-            text = "Nome da vacina *",
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Medium,
+        PetFieldLabel(
+            text = "Nome da vacina",
+            required = true,
         )
 
         Spacer(
             modifier = Modifier.height(PetLifeSpacing.ExtraSmall),
         )
 
-        OutlinedTextField(
+        PetRequiredTextField(
             value = name,
             onValueChange = {
                 name = it
@@ -141,30 +163,9 @@ fun AddVaccineScreen(
                     nameError = false
                 }
             },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(
-                    text = "Ex.: V10, Raiva, Giárdia",
-                    style = MaterialTheme.typography.bodySmall,
-                )
-            },
-            singleLine = true,
+            placeholder = "Ex.: V10 (Polivalente)",
             isError = nameError,
-            supportingText = if (nameError) {
-                {
-                    Text(
-                        text = "Informe o nome da vacina.",
-                        color = MaterialTheme.colorScheme.error,
-                    )
-                }
-            } else {
-                null
-            },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next,
-            ),
-            shape = MaterialTheme.shapes.medium,
+            errorMessage = "Informe o nome da vacina.",
         )
 
         Spacer(
@@ -172,36 +173,22 @@ fun AddVaccineScreen(
         )
 
         /*
-         * Dose / descrição
+         * Dose
          */
-        Text(
+        PetFieldLabel(
             text = "Dose / descrição",
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Medium,
         )
 
         Spacer(
             modifier = Modifier.height(PetLifeSpacing.ExtraSmall),
         )
 
-        OutlinedTextField(
+        PetTextField(
             value = doseDescription,
             onValueChange = {
                 doseDescription = it
             },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(
-                    text = "Ex.: Dose anual",
-                    style = MaterialTheme.typography.bodySmall,
-                )
-            },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next,
-            ),
-            shape = MaterialTheme.shapes.medium,
+            placeholder = "Ex.: Dose anual",
         )
 
         Spacer(
@@ -211,29 +198,22 @@ fun AddVaccineScreen(
         /*
          * Data da aplicação
          */
-        Text(
+        PetFieldLabel(
             text = "Data da aplicação",
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Medium,
         )
 
         Spacer(
             modifier = Modifier.height(PetLifeSpacing.ExtraSmall),
         )
 
-        TextButton(
+        PetDateField(
+            value = applicationDateMillis?.let {
+                formatVaccineDate(it)
+            }.orEmpty(),
             onClick = {
                 showApplicationDatePicker = true
             },
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text(
-                text = applicationDateMillis?.let {
-                    formatVaccineDate(it)
-                } ?: "📅 Selecionar data da aplicação",
-                color = MaterialTheme.colorScheme.secondary,
-            )
-        }
+        )
 
         Spacer(
             modifier = Modifier.height(PetLifeSpacing.Medium),
@@ -242,29 +222,22 @@ fun AddVaccineScreen(
         /*
          * Próxima dose
          */
-        Text(
+        PetFieldLabel(
             text = "Próxima dose",
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Medium,
         )
 
         Spacer(
             modifier = Modifier.height(PetLifeSpacing.ExtraSmall),
         )
 
-        TextButton(
+        PetDateField(
+            value = nextDoseDateMillis?.let {
+                formatVaccineDate(it)
+            }.orEmpty(),
             onClick = {
                 showNextDoseDatePicker = true
             },
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text(
-                text = nextDoseDateMillis?.let {
-                    formatVaccineDate(it)
-                } ?: "📅 Selecionar próxima dose",
-                color = MaterialTheme.colorScheme.secondary,
-            )
-        }
+        )
 
         Spacer(
             modifier = Modifier.height(PetLifeSpacing.Medium),
@@ -273,38 +246,19 @@ fun AddVaccineScreen(
         /*
          * Observações
          */
-        Text(
+        PetFieldLabel(
             text = "Observações (opcional)",
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Medium,
         )
 
         Spacer(
             modifier = Modifier.height(PetLifeSpacing.ExtraSmall),
         )
 
-        OutlinedTextField(
+        PetObservationsField(
             value = observations,
-            onValueChange = { newValue ->
-                if (newValue.length <= 200) {
-                    observations = newValue
-                }
+            onValueChange = {
+                observations = it
             },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(
-                    text = "Adicione informações importantes sobre a vacina",
-                    style = MaterialTheme.typography.bodySmall,
-                )
-            },
-            minLines = 3,
-            maxLines = 4,
-            supportingText = {
-                Text(
-                    text = "${observations.length}/200",
-                )
-            },
-            shape = MaterialTheme.shapes.medium,
         )
 
         Spacer(
@@ -317,50 +271,44 @@ fun AddVaccineScreen(
         PetLifePrimaryButton(
             text = "Salvar vacina",
             onClick = {
+
                 nameError = name.isBlank()
 
                 if (!nameError) {
+
                     onSaveClick(
                         name.trim(),
+
                         doseDescription
                             .trim()
-                            .takeIf { it.isNotEmpty() },
+                            .takeIf {
+                                it.isNotEmpty()
+                            },
+
                         applicationDateMillis,
+
                         nextDoseDateMillis,
+
                         observations
                             .trim()
-                            .takeIf { it.isNotEmpty() },
+                            .takeIf {
+                                it.isNotEmpty()
+                            },
                     )
                 }
             },
         )
 
         Spacer(
-            modifier = Modifier.height(PetLifeSpacing.Small),
+            modifier = Modifier.height(PetLifeSpacing.Medium),
         )
-
-        /*
-         * Voltar
-         */
-        TextButton(
-            onClick = onBackClick,
-            modifier = Modifier.align(
-                Alignment.CenterHorizontally,
-            ),
-        ) {
-            Text(
-                text = "Voltar",
-                color = MaterialTheme.colorScheme.secondary,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Medium,
-            )
-        }
     }
 
     /*
-     * DatePicker - Data da aplicação
+     * DatePicker - Aplicação
      */
     if (showApplicationDatePicker) {
+
         DatePickerDialog(
             onDismissRequest = {
                 showApplicationDatePicker = false
@@ -368,13 +316,16 @@ fun AddVaccineScreen(
             confirmButton = {
                 TextButton(
                     onClick = {
+
                         applicationDateMillis =
                             applicationDatePickerState.selectedDateMillis
 
                         showApplicationDatePicker = false
                     },
                 ) {
-                    Text("Confirmar")
+                    Text(
+                        text = "Confirmar",
+                    )
                 }
             },
             dismissButton = {
@@ -383,7 +334,9 @@ fun AddVaccineScreen(
                         showApplicationDatePicker = false
                     },
                 ) {
-                    Text("Cancelar")
+                    Text(
+                        text = "Cancelar",
+                    )
                 }
             },
         ) {
@@ -397,6 +350,7 @@ fun AddVaccineScreen(
      * DatePicker - Próxima dose
      */
     if (showNextDoseDatePicker) {
+
         DatePickerDialog(
             onDismissRequest = {
                 showNextDoseDatePicker = false
@@ -404,13 +358,16 @@ fun AddVaccineScreen(
             confirmButton = {
                 TextButton(
                     onClick = {
+
                         nextDoseDateMillis =
                             nextDoseDatePickerState.selectedDateMillis
 
                         showNextDoseDatePicker = false
                     },
                 ) {
-                    Text("Confirmar")
+                    Text(
+                        text = "Confirmar",
+                    )
                 }
             },
             dismissButton = {
@@ -419,7 +376,9 @@ fun AddVaccineScreen(
                         showNextDoseDatePicker = false
                     },
                 ) {
-                    Text("Cancelar")
+                    Text(
+                        text = "Cancelar",
+                    )
                 }
             },
         ) {
@@ -433,6 +392,7 @@ fun AddVaccineScreen(
 private fun formatVaccineDate(
     millis: Long,
 ): String {
+
     val date = Instant
         .ofEpochMilli(millis)
         .atZone(ZoneOffset.UTC)
