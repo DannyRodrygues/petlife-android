@@ -71,6 +71,16 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Persistência da foto do pet no armazenamento interno do aplicativo.
 - Exibição da foto do pet após fechar e reabrir o aplicativo.
 
+- Tela de detalhes do pet com dados persistidos.
+- Edição dos dados do pet.
+- Persistência das alterações utilizando Room.
+- Módulo de vacinas vinculado ao pet.
+- Cadastro de vacinas.
+- Exibição de próxima dose.
+- Histórico de vacinas.
+- Relacionamento entre pets e vacinas por `petId`.
+- Migration do banco Room da versão 1 para 2.
+
 ### Corrigido
 
 - Compatibilidade entre AndroidX, Android Gradle Plugin e compileSdk
@@ -105,4 +115,8 @@ Todas as alterações relevantes do PetLife serão documentadas neste arquivo.
 - Criação de `PetRepository`, `PetDao` e `PetDatabase`.
 - Integração da Home com `HomeViewModel` e dados persistidos.
 - Ajuste do fluxo de imagens para evitar perda de acesso após reiniciar o app.
+- Integração da tela de detalhes com `PetDetailsViewModel`.
+- Integração da edição com `EditPetViewModel`.
+- Atualização automática dos dados do pet após edição.
+- Refatoração da interface de vacinas com componentes reutilizáveis.
 

@@ -50,6 +50,7 @@ import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
 fun HomeScreen(
     pets: List<PetEntity>,
     onAddPetClick: () -> Unit,
+    onPetClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -173,6 +174,7 @@ fun HomeScreen(
 
                     PetsContent(
                         pets = pets,
+                        onPetClick = onPetClick,
                         modifier = Modifier.weight(1f),
                     )
                 }
@@ -273,6 +275,7 @@ private fun EmptyPetsContent(
 @Composable
 private fun PetsContent(
     pets: List<PetEntity>,
+    onPetClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -290,6 +293,9 @@ private fun PetsContent(
         pets.forEach { pet ->
             PetCard(
                 pet = pet,
+                onClick = {
+                    onPetClick(pet.id)
+                },
             )
         }
     }
@@ -298,8 +304,10 @@ private fun PetsContent(
 @Composable
 private fun PetCard(
     pet: PetEntity,
+    onClick: () -> Unit,
 ) {
     Card(
+        onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.large,
         colors = CardDefaults.cardColors(

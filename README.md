@@ -45,25 +45,30 @@ O aplicativo permitirá registrar pets, consultas, vacinas, banhos, medicamentos
 ## ✨ Funcionalidades implementadas
 
 - 🔐 Fluxo de autenticação e navegação entre telas
-- 🏠 Home inicial do aplicativo
+- 🏠 Home com listagem dos pets cadastrados
 - 🐶 Cadastro de pets com formulário estruturado
 - 🐾 Seleção de espécie e sexo
 - 📅 Seleção de data de nascimento com Date Picker
 - 📷 Seleção de foto do pet pela galeria
-- 🖼️ Pré-visualização da foto selecionada
+- 🖼️ Persistência e exibição da foto do pet
 - ✅ Validação dos campos obrigatórios
+- 💾 Persistência local de pets com Room
+- 🐕 Tela de detalhes do pet
+- ✏️ Edição dos dados do pet
+- 💉 Cadastro e acompanhamento de vacinas
+- 🔔 Exibição da próxima dose de vacina
+- 📋 Histórico de vacinas por pet
+- 🔗 Relacionamento entre pets e vacinas
 
 ---
 
 ## 🚀 Funcionalidades planejadas
 
 - 👤 Autenticação de usuários com Firebase
-- 🐶 Persistência e gerenciamento de pets
+- 🩺 Registro e histórico de consultas veterinárias
+- 💊 Registro de medicamentos e tratamentos
+- ⚖️ Histórico de peso e medidas
 - 📅 Agenda de consultas e cuidados
-- 💉 Controle de vacinas
-- 💊 Registro de medicamentos
-- ⚖️ Registro de peso e informações de saúde
-- 💾 Persistência local com Room
 - 🌐 Consumo de API REST
 - 📍 Consulta automática de endereço por CEP
 - 📴 Funcionamento offline
@@ -194,6 +199,13 @@ PetLife
 - ✅ Definição da identidade visual (paleta, logomarca e componentes)
 - ✅ Implementação do fluxo completo de autenticação
 - ✅ Implementação da Home inicial com identidade visual personalizada
+- ✅ Implementação do cadastro e persistência local de pets com Room
+- ✅ Implementação da listagem de pets na Home
+- ✅ Implementação da tela de detalhes e edição do pet
+- ✅ Persistência de imagens dos pets no armazenamento interno
+- ✅ Implementação do módulo de vacinas
+- ✅ Relacionamento entre pets e vacinas no banco de dados
+- ✅ Implementação de migrations do Room para evolução do banco
 
 ---
 

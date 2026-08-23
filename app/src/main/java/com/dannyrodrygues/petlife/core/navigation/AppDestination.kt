@@ -21,4 +21,26 @@ sealed interface AppDestination {
 
     @Serializable
     data object  AddPet : AppDestination
+
+    @Serializable
+    data class PetDetails(
+        val petId: Long,
+    ) : AppDestination
+
+    @Serializable
+    data class EditPet(
+        val petId: Long,
+    ) : AppDestination
+
+    @Serializable
+    data class Vaccines(
+        val petId: Long,
+    ) : AppDestination
+
+    @Serializable
+    data class AddVaccine(
+        val petId: Long,
+    ) : AppDestination
+
+
 }

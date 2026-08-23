@@ -14,7 +14,11 @@ object PetDatabaseProvider {
                 context.applicationContext,
                 PetDatabase::class.java,
                 "petlife_database",
-            ).build()
+            )
+                .addMigrations(
+                    PetDatabase.MIGRATION_1_2,
+                )
+                .build()
 
             INSTANCE = instance
             instance
