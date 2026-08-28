@@ -6,6 +6,8 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.dannyrodrygues.petlife.core.tenant.config.PetLifeDefaultTenant
+import com.dannyrodrygues.petlife.core.tenant.model.BrandConfig
 
 private val PetLifeLightColorScheme = lightColorScheme(
     primary = PetLifePurple,
@@ -17,6 +19,8 @@ private val PetLifeLightColorScheme = lightColorScheme(
     onSecondary = PetLifeTextPrimary,
     secondaryContainer = PetLifeBlueLight,
     onSecondaryContainer = PetLifeTextPrimary,
+
+    tertiary = PetLifeBlueDark,
 
     background = PetLifeBackground,
     onBackground = PetLifeTextPrimary,
@@ -39,6 +43,8 @@ private val PetLifeDarkColorScheme = darkColorScheme(
     secondaryContainer = PetLifeBlueDark,
     onSecondaryContainer = Color.White,
 
+    tertiary = PetLifeBlueDark,
+
     background = Color(0xFF17141D),
     onBackground = Color(0xFFF2EEF7),
 
@@ -51,13 +57,51 @@ private val PetLifeDarkColorScheme = darkColorScheme(
 
 @Composable
 fun PetLifeTheme(
+    brandConfig: BrandConfig = PetLifeDefaultTenant.config.brand,
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
+
+    val primaryColor = brandConfig.primaryColorHex.toComposeColor(
+        fallback = PetLifePurple,
+    )
+
+    val secondaryColor = brandConfig.secondaryColorHex.toComposeColor(
+        fallback = PetLifeBlue,
+    )
+
+    val tertiaryColor = brandConfig.tertiaryColorHex
+        ?.toComposeColor(
+            fallback = PetLifeBlueDark,
+        )
+        ?: PetLifeBlueDark
+
     val colorScheme = if (darkTheme) {
-        PetLifeDarkColorScheme
+
+        /*
+         * Nesta primeira etapa do Multi-Tenant,
+         * mantemos as tonalidades estruturais do Dark Theme
+         * para preservar contraste e acessibilidade.
+         *
+         * As cores de branding que já são seguras no tema
+         * escuro continuam sendo aplicadas.
+         */
+        PetLifeDarkColorScheme.copy(
+            secondary = secondaryColor,
+            tertiary = tertiaryColor,
+        )
+
     } else {
-        PetLifeLightColorScheme
+
+        /*
+         * No Light Theme, as cores principais passam
+         * a ser fornecidas pelo BrandConfig do Tenant.
+         */
+        PetLifeLightColorScheme.copy(
+            primary = primaryColor,
+            secondary = secondaryColor,
+            tertiary = tertiaryColor,
+        )
     }
 
     MaterialTheme(
@@ -66,4 +110,19 @@ fun PetLifeTheme(
         shapes = PetLifeShapes,
         content = content,
     )
+}
+
+private fun String.toComposeColor(
+    fallback: Color,
+): Color {
+    return try {
+
+        Color(
+            android.graphics.Color.parseColor(this),
+        )
+
+    } catch (_: IllegalArgumentException) {
+
+        fallback
+    }
 }

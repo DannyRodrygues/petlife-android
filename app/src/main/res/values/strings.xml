@@ -58,7 +58,7 @@
     <!-- Home -->
     <string name="home_title">PetLife</string>
     <string name="home_greeting">Olá!</string>
-    <string name="home_welcome_message">Bem-vinda ao PetLife.</string>
+    <string name="home_welcome_message">Bem-vinda ao app %1$s.</string>
     <string name="home_pets_title">Seus pets</string>
     <string name="home_empty_pets">Nenhum pet cadastrado ainda.</string>
     <string name="home_empty_pets_description">Cadastre seu primeiro pet\npara começar.</string>

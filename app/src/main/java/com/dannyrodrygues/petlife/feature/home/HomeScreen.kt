@@ -26,6 +26,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -43,8 +44,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.dannyrodrygues.petlife.R
+import com.dannyrodrygues.petlife.core.tenant.LocalTenantConfig
 import com.dannyrodrygues.petlife.feature.pet.data.local.PetEntity
 import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
+
 
 @Composable
 fun HomeScreen(
@@ -53,6 +56,7 @@ fun HomeScreen(
     onPetClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val tenant = LocalTenantConfig.current
     Scaffold(
         modifier = modifier
             .fillMaxSize()
@@ -117,7 +121,10 @@ fun HomeScreen(
                 )
 
                 Text(
-                    text = stringResource(R.string.home_welcome_message),
+                    text = stringResource(
+                        R.string.home_welcome_message,
+                        tenant.name,
+                    ),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -132,10 +139,11 @@ fun HomeScreen(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Image(
+                    Icon(
                         painter = painterResource(R.drawable.paw_petlife),
                         contentDescription = null,
-                        modifier = Modifier.size(28.dp),
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(PetLifeSpacing.Large),
                     )
 
                     Spacer(
