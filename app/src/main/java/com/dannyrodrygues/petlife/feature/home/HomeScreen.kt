@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.dannyrodrygues.petlife.R
+import com.dannyrodrygues.petlife.core.data.remote.BrandAssetUrlProvider
 import com.dannyrodrygues.petlife.core.tenant.LocalTenantConfig
 import com.dannyrodrygues.petlife.feature.pet.data.local.PetEntity
 import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
@@ -57,6 +58,10 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
 ) {
     val tenant = LocalTenantConfig.current
+    val remoteBannerUrl =
+        BrandAssetUrlProvider.getPublicUrl(
+            tenant.brand.bannerPath,
+        )
     Scaffold(
         modifier = modifier
             .fillMaxSize()
@@ -76,13 +81,20 @@ fun HomeScreen(
             /*
              * Banner
              */
-            Image(
-                painter = painterResource(R.drawable.home_banner),
-                contentDescription = stringResource(R.string.app_name),
+            AsyncImage(
+                model = remoteBannerUrl
+                    ?: R.drawable.home_banner,
+                contentDescription = stringResource(
+                    R.string.home_banner_content_description,
+                    tenant.name,
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1080f / 420f),
                 contentScale = ContentScale.FillWidth,
+                error = painterResource(
+                    R.drawable.home_banner,
+                ),
             )
 
             Column(

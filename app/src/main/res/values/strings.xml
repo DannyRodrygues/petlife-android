@@ -6,6 +6,10 @@
     <string name="welcome_description">
         Organize a vida do seu pet em um só lugar.
     </string>
+    <string name="home_banner_content_description">Banner da empresa %1$s</string>
+    <string name="brand_logo_content_description">
+    Logomarca da empresa %1$s
+</string>
 
     <!-- Ações compartilhadas -->
     <string name="action_login">Entrar</string>

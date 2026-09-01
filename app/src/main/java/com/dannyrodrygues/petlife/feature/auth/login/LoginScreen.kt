@@ -1,7 +1,5 @@
 package com.dannyrodrygues.petlife.feature.auth.login
 
-import androidx.compose.foundation.Image
-import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,7 +25,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -35,8 +32,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dannyrodrygues.petlife.R
+import com.dannyrodrygues.petlife.core.components.PetLifeBrandLogo
 import com.dannyrodrygues.petlife.core.components.PetLifePrimaryButton
 import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
+import com.dannyrodrygues.petlife.core.components.PetLifeBrandLogo
 
 @Composable
 fun LoginScreen(
@@ -71,9 +70,7 @@ fun LoginScreen(
                 .padding(vertical = PetLifeSpacing.Large),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Image(
-                painter = painterResource(R.drawable.logo_petlife),
-                contentDescription = stringResource(R.string.app_name),
+            PetLifeBrandLogo(
                 modifier = Modifier.size(100.dp),
             )
 
