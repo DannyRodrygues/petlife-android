@@ -17,7 +17,7 @@ coerentes entre todas as funcionalidades.
 A identidade visual inicial utilizará:
 
 - roxo e lilás como cores principais;
-- verde Tiffany como cor secundária;
+- azul Tiffany como cor secundária;
 - fundos claros e neutros;
 - componentes com formas arredondadas;
 - imagens e ilustrações de pets;
@@ -45,3 +45,20 @@ a identidade da marca.
 - trabalho adicional na criação e otimização de imagens;
 - necessidade de testar contraste e acessibilidade;
 - criação de variações da logomarca.
+
+## Evolução Multi-Tenant
+
+Com a adoção da arquitetura SaaS Multi-Tenant, definida no ADR 0003, a identidade visual original do PetLife passa a funcionar também como identidade padrão e fallback da aplicação.
+
+Cada Tenant poderá sobrescrever dinamicamente:
+
+- cor principal;
+- cor secundária;
+- cor terciária;
+- logomarca;
+- banner;
+- nome exibido da empresa.
+
+As telas continuarão utilizando `MaterialTheme` e os componentes do Design System, sem conhecer diretamente as cores específicas de cada empresa.
+
+As cores dinâmicas fornecidas pelo Android permanecem desativadas. Isso não impede o branding dinâmico por Tenant, que é controlado pela própria aplicação através de `BrandConfig`.

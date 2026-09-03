@@ -13,6 +13,7 @@ Organize a vida do seu pet em um só lugar.
 ![Android](https://img.shields.io/badge/Android-15-81D8D0?style=for-the-badge&logo=android&logoColor=white)
 ![Kotlin](https://img.shields.io/badge/Kotlin-2.0-7656B5?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Jetpack Compose](https://img.shields.io/badge/Jetpack-Compose-7656B5?style=for-the-badge)
+![Supabase](https://img.shields.io/badge/Supabase-Backend-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 ![MVVM](https://img.shields.io/badge/Architecture-MVVM-81D8D0?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-7656B5?style=for-the-badge)
 
@@ -22,9 +23,11 @@ Organize a vida do seu pet em um só lugar.
 
 ## 📱 Sobre o projeto
 
-O **PetLife** é um aplicativo Android desenvolvido em **Kotlin** para auxiliar tutores na organização da rotina, saúde e bem-estar de seus animais de estimação.
+O **PetLife** é um aplicativo Android desenvolvido em **Kotlin** para centralizar informações relacionadas à saúde, rotina e bem-estar de animais de estimação.
 
-O projeto está sendo desenvolvido como parte do meu portfólio profissional, seguindo boas práticas de desenvolvimento Android, arquitetura limpa e documentação contínua durante todas as etapas de evolução da aplicação.
+Além das funcionalidades de gerenciamento de pets, o projeto está evoluindo para uma arquitetura **SaaS Multi-Tenant**, permitindo que diferentes empresas utilizem a mesma aplicação com identidade visual, usuários e dados próprios.
+
+O projeto é desenvolvido como parte do meu portfólio profissional e utiliza práticas modernas de desenvolvimento Android, arquitetura em camadas, persistência local, backend remoto, autenticação, segurança com Row Level Security e documentação contínua das decisões arquiteturais.
 
 ---
 
@@ -32,103 +35,277 @@ O projeto está sendo desenvolvido como parte do meu portfólio profissional, se
 
 Projeto em desenvolvimento ativo.
 
+Atualmente estão implementados os módulos de **Pets** e **Vacinas**, autenticação por e-mail e senha, integração com Supabase e a fundação da arquitetura SaaS Multi-Tenant.
+
+O isolamento completo dos dados de negócio por Tenant e a sincronização **Room ↔ Supabase** estão entre as próximas etapas do desenvolvimento.
+
 ---
 
 ## 🎯 Objetivo
 
-O PetLife tem como objetivo auxiliar tutores no gerenciamento das informações e dos cuidados dos seus animais de estimação.
+O PetLife tem como objetivo centralizar informações e cuidados relacionados aos animais de estimação em uma única aplicação.
 
-O aplicativo permitirá registrar pets, consultas, vacinas, banhos, medicamentos e outros compromissos relacionados à saúde e à rotina dos animais.
+O aplicativo permite registrar e acompanhar pets, vacinas e informações de saúde, e será expandido com módulos de consultas veterinárias, medicamentos, peso, agenda e outros cuidados.
+
+Como evolução arquitetural, o PetLife também está sendo preparado como uma plataforma **SaaS Multi-Tenant**, permitindo que clínicas, pet shops e outras empresas utilizem o mesmo aplicativo com identidade visual e ambiente próprios.
+
+---
+
+## 🏢 SaaS Multi-Tenant
+
+O PetLife utiliza uma arquitetura **Multi-Tenant**, permitindo que diferentes empresas compartilhem a mesma aplicação sem necessidade de manter versões diferentes do código.
+
+Após a autenticação, o aplicativo identifica automaticamente a empresa associada ao usuário:
+
+```text
+Login
+  ↓
+Supabase Auth
+  ↓
+Profile
+  ↓
+tenantId
+  ↓
+Tenant
+  ↓
+BrandConfig
+  ↓
+Identidade visual da empresa
+```
+
+Cada Tenant pode possuir:
+
+- nome próprio;
+- cores personalizadas;
+- logomarca;
+- banner;
+- usuários associados.
+
+O branding é carregado remotamente através do **Supabase PostgreSQL + Storage**, permitindo alterar a identidade visual de uma empresa sem recompilar o aplicativo.
+
+A arquitetura foi validada utilizando dois Tenants distintos:
+
+```text
+PetLife
+Clínica Bicho Feliz
+```
+
+Usuários diferentes carregam automaticamente a identidade visual correspondente ao seu Tenant.
+
+> O isolamento dos dados de negócio, como Pets e Vacinas, ainda está em desenvolvimento e será realizado através de `tenantId`, Room e políticas RLS no backend.
 
 ---
 
 ## ✨ Funcionalidades implementadas
 
-- 🔐 Fluxo de autenticação e navegação entre telas
-- 🏠 Home com listagem dos pets cadastrados
-- 🐶 Cadastro de pets com formulário estruturado
-- 🐾 Seleção de espécie e sexo
-- 📅 Seleção de data de nascimento com Date Picker
-- 📷 Seleção de foto do pet pela galeria
-- 🖼️ Persistência e exibição da foto do pet
-- ✅ Validação dos campos obrigatórios
-- 💾 Persistência local de pets com Room
-- 🐕 Tela de detalhes do pet
-- ✏️ Edição dos dados do pet
-- 💉 Cadastro e acompanhamento de vacinas
-- 🔔 Exibição da próxima dose de vacina
-- 📋 Histórico de vacinas por pet
-- 🔗 Relacionamento entre pets e vacinas
-- 💉 Cadastro e acompanhamento de vacinas por pet
-- 🔔 Controle de próximas doses
-- 📋 Histórico de vacinas aplicadas
-- ✏️ Edição dos dados do pet
-- 🔗 Relacionamento entre pets e vacinas no Room
+### 🔐 Autenticação
+
+- Login real por e-mail e senha com Supabase Auth
+- Validação de campos obrigatórios
+- Tratamento de credenciais inválidas
+- Associação entre usuário e Tenant através de `profiles`
+- Resolução automática do Tenant após autenticação
+
+### 🏢 Multi-Tenant
+
+- Arquitetura SaaS Multi-Tenant
+- Tenant identificado pelo usuário autenticado
+- Branding remoto por empresa
+- Cores dinâmicas por Tenant
+- Logomarca dinâmica
+- Banner dinâmico
+- Fallback visual local do PetLife
+- Validação utilizando múltiplos Tenants
+
+### 🐶 Pets
+
+- Home com listagem dos pets cadastrados
+- Cadastro de pets
+- Seleção de espécie e sexo
+- Data de nascimento com Date Picker
+- Seleção de foto pela galeria
+- Persistência da foto do pet
+- Persistência local com Room
+- Tela de detalhes
+- Edição dos dados do pet
+
+### 💉 Vacinas
+
+- Cadastro de vacinas por pet
+- Histórico de vacinas
+- Controle de próximas doses
+- Relacionamento entre Pets e Vacinas
+- Persistência local com Room
+- Evolução do banco utilizando migrations
+
+### 🎨 Interface
+
+- Jetpack Compose
+- Material Design 3
+- Design System próprio
+- Componentes reutilizáveis
+- Tema dinâmico por Tenant
+- Navegação tipada com Navigation Compose
 
 ---
 
 ## 🚀 Funcionalidades planejadas
 
-- 👤 Autenticação de usuários com Firebase
+- 🚪 Logout e gerenciamento completo de sessão
+- 🔑 Recuperação e redefinição de senha com Supabase Auth
+- 👤 Criação de contas e associação segura ao Tenant
+- 🔐 Controle de permissões por roles
+- 🏢 Isolamento de Pets, Vacinas e demais dados por Tenant
+- 🔄 Sincronização entre Room e Supabase
+- 📴 Estratégia offline-first
 - 🩺 Registro e histórico de consultas veterinárias
 - 💊 Registro de medicamentos e tratamentos
 - ⚖️ Histórico de peso e medidas
 - 📅 Agenda de consultas e cuidados
-- 🌐 Consumo de API REST
-- 📍 Consulta automática de endereço por CEP
-- 📴 Funcionamento offline
 - 📊 Dashboard com próximos compromissos
-- 
+- 🛠️ Painel administrativo para gerenciamento de empresas e usuários
+
 ---
 
 ## 🛠 Tecnologias
 
+### Android
+
 - Kotlin
 - Jetpack Compose
 - Material Design 3
-- MVVM
-- Room
-- Retrofit
-- Hilt
+- Navigation Compose
 - Coroutines
 - Flow / StateFlow
-- Firebase Authentication
-- Navigation Compose
-- JUnit
+- Coil
+
+### Arquitetura
+
+- MVVM
+- Repository Pattern
+- Data Sources
+- DTOs e Mappers
+- CompositionLocal para Tenant ativo
+
+### Persistência local
+
+- Room
+- Room Migrations
+
+### Backend
+
+- Supabase
+- Supabase Auth
+- Supabase PostgreSQL
+- Supabase Storage
+- PostgREST
+- Row Level Security (RLS)
+- Ktor Client
+
+### Ferramentas
+
+- Git
+- GitHub
+- Gradle Kotlin DSL
+- KSP
 
 ---
 
 ## 🏛 Arquitetura
 
-O projeto será desenvolvido utilizando uma arquitetura em camadas.
+O PetLife utiliza uma arquitetura baseada em separação de responsabilidades, combinando **MVVM**, **Repository Pattern** e **Data Sources**.
 
-### Camada de Interface (UI)
+```text
+UI / Compose
+      ↓
+ViewModel
+      ↓
+Repository
+      ↓
+Data Source
+   ↙       ↘
+ Room    Supabase
+```
 
-Responsável pelas telas, componentes visuais, gerenciamento de estados e interação com o usuário.
+### Interface
 
-### Camada de Dados (Data)
+Responsável pelas telas Compose, interação do usuário e observação dos estados expostos pelos ViewModels.
 
-Responsável pelo acesso ao banco de dados local, consumo de APIs e implementação dos repositórios.
+### Presentation
 
-### Camada de Domínio (Domain)
+Os ViewModels controlam o estado das telas utilizando `StateFlow` e coordenam as ações da interface.
 
-Será adicionada quando houver regras de negócio reutilizáveis ou suficientemente complexas para justificar sua separação.
+### Data
+
+Repositories isolam as fontes de dados utilizadas pela aplicação.
+
+Atualmente o projeto utiliza:
+
+```text
+Room
+→ persistência local
+
+Supabase
+→ autenticação
+→ PostgreSQL
+→ Storage
+```
+
+### Multi-Tenant
+
+A resolução do Tenant utiliza:
+
+```text
+Supabase Auth
+      ↓
+profiles
+      ↓
+tenant_id
+      ↓
+TenantRepository
+      ↓
+TenantConfig
+      ↓
+TenantProvider
+      ↓
+UI
+```
+
+Uma camada de domínio dedicada será adicionada quando regras de negócio suficientemente complexas justificarem sua utilização.
 
 ---
 
 ## 📂 Estrutura do projeto
 
-```
+```text
 PetLife
 │
 ├── app
-│   ├── core
-│   ├── feature
-│   ├── ui
-│   └── ...
+│   └── src/main/java/com/dannyrodrygues/petlife
+│       │
+│       ├── core
+│       │   ├── auth
+│       │   ├── components
+│       │   ├── data
+│       │   ├── navigation
+│       │   └── tenant
+│       │
+│       ├── feature
+│       │   ├── auth
+│       │   ├── home
+│       │   └── pet
+│       │
+│       └── ui
+│           └── theme
 │
 ├── docs
 │   ├── adr
+│   │   ├── 0001-initial-architecture.md
+│   │   ├── 0002-visual-identity-and-design-system.md
+│   │   ├── 0003-saas-multi-tenant.md
+│   │   └── 0004-authentication-and-tenant-resolution.md
+│   │
+│   ├── architecture
 │   └── design
 │
 ├── assets
@@ -136,6 +313,7 @@ PetLife
 │   ├── banner
 │   └── screenshots
 │
+├── CHANGELOG.md
 └── README.md
 ```
 
@@ -144,35 +322,38 @@ PetLife
 ## 📸 Screenshots
 
 <a href="assets/screenshots/welcome-screen.png">
-    <img src="assets/screenshots/welcome-screen.png"
-         alt="Tela de Boas-vindas"
-         width="140">
-  </a> |
-  <a href="assets/screenshots/login-screen.png">
-    <img src="assets/screenshots/login-screen.png"
-         alt="Tela de Login"
-         width="140">
-  </a> |
-  <a href="assets/screenshots/register-screen.png">
-    <img src="assets/screenshots/register-screen.png"
-         alt="Tela de Cadastro"
-         width="140">
-  </a> |
-  <a href="assets/screenshots/forgot-password-screen.png">
-    <img src="assets/screenshots/forgot-password-screen.png"
-         alt="Tela de Recuperação de Senha"
-         width="140">
-  </a> |
-  <a href="assets/screenshots/home-screen.png">
-    <img src="assets/screenshots/home-screen.png"
-         alt="Tela Home"
-         width="140">
-  </a> |
-   <a href="assets/screenshots/add-pet-screen.png">
+  <img src="assets/screenshots/welcome-screen.png"
+       alt="Tela de Boas-vindas"
+       width="140">
+</a> |
+<a href="assets/screenshots/login-screen.png">
+  <img src="assets/screenshots/login-screen.png"
+       alt="Tela de Login"
+       width="140">
+</a> |
+<a href="assets/screenshots/register-screen.png">
+  <img src="assets/screenshots/register-screen.png"
+       alt="Tela de Cadastro"
+       width="140">
+</a> |
+<a href="assets/screenshots/forgot-password-screen.png">
+  <img src="assets/screenshots/forgot-password-screen.png"
+       alt="Tela de Recuperação de Senha"
+       width="140">
+</a> |
+<a href="assets/screenshots/home-screen.png">
+  <img src="assets/screenshots/home-screen.png"
+       alt="Tela Home"
+       width="140">
+</a> |
+<a href="assets/screenshots/add-pet-screen.png">
   <img src="assets/screenshots/add-pet-screen.png"
        alt="Tela de Cadastro de Pet"
        width="140">
 </a>
+
+> Os screenshots serão atualizados conforme a evolução da aplicação. Uma futura demonstração também deverá destacar o mesmo aplicativo carregando identidades visuais de Tenants diferentes.
+
 ---
 
 ## ⚙️ Requisitos
@@ -194,48 +375,65 @@ PetLife
 
 ## 📖 Histórico do projeto
 
-- ✅ Configuração do ambiente de desenvolvimento Android
-- ✅ Atualização do Java para a versão 21
-- ✅ Ajuste de compatibilidade entre AndroidX, compileSdk e Android Gradle
+- ✅ Configuração do ambiente Android
 - ✅ Configuração do Git e integração com GitHub
-- ✅ Execução do aplicativo em dispositivo físico
-- ✅ Organização da arquitetura baseada em Feature Packages
-- ✅ Criação do Design System do PetLife
-- ✅ Definição da identidade visual (paleta, logomarca e componentes)
-- ✅ Implementação do fluxo completo de autenticação
-- ✅ Implementação da Home inicial com identidade visual personalizada
-- ✅ Implementação do cadastro e persistência local de pets com Room
-- ✅ Implementação da listagem de pets na Home
-- ✅ Implementação da tela de detalhes e edição do pet
-- ✅ Persistência de imagens dos pets no armazenamento interno
-- ✅ Implementação do módulo de vacinas
-- ✅ Relacionamento entre pets e vacinas no banco de dados
-- ✅ Implementação de migrations do Room para evolução do banco
-- ✅ Implementação da tela de detalhes e edição do pet
-- ✅ Implementação do módulo de vacinas
-- ✅ Cadastro, histórico e controle de próximas doses
-- ✅ Relacionamento entre pets e vacinas no banco local
-- ✅ Evolução do banco Room com migration preservando os dados existentes
+- ✅ Organização por Feature Packages
+- ✅ Criação do Design System
+- ✅ Definição da identidade visual PetLife
+- ✅ Implementação da navegação principal
+- ✅ Cadastro e persistência local de Pets
+- ✅ Persistência de fotos dos Pets
+- ✅ Home com listagem dos Pets
+- ✅ Tela de detalhes e edição do Pet
+- ✅ Implementação do módulo de Vacinas
+- ✅ Relacionamento entre Pets e Vacinas
+- ✅ Room migrations preservando dados existentes
+- ✅ Definição da arquitetura SaaS Multi-Tenant
+- ✅ Criação de Tenant e BrandConfig
+- ✅ Integração Android com Supabase
+- ✅ PostgreSQL para configurações remotas
+- ✅ Supabase Storage para branding
+- ✅ Row Level Security
+- ✅ Branding dinâmico por Tenant
+- ✅ Supabase Auth
+- ✅ Login real por e-mail e senha
+- ✅ Tabela `profiles`
+- ✅ Associação usuário → Tenant
+- ✅ Resolução automática do Tenant após login
+- ✅ Teste real com múltiplas empresas
+- ✅ Logo, banner, cores e nome dinâmicos por Tenant
+- 🚧 Isolamento dos dados locais por Tenant
+- 🚧 Sincronização Room ↔ Supabase
 
 ---
 
 ## 📚 Documentação
 
-Toda a evolução do projeto está sendo documentada durante o desenvolvimento.
+A evolução técnica e arquitetural do PetLife é documentada durante o desenvolvimento.
 
-- `CHANGELOG.md` — Histórico das alterações realizadas.
-- `docs/adr/` — Registros de decisões arquiteturais (Architecture Decision Records).
-- `docs/design/` — Documentação do Design System.
+- `CHANGELOG.md` — histórico das alterações realizadas.
+- `docs/adr/0001-initial-architecture.md` — arquitetura inicial do aplicativo.
+- `docs/adr/0002-visual-identity-and-design-system.md` — identidade visual e Design System.
+- `docs/adr/0003-saas-multi-tenant.md` — adoção da arquitetura SaaS Multi-Tenant.
+- `docs/adr/0004-authentication-and-tenant-resolution.md` — autenticação e resolução automática do Tenant.
+- `docs/architecture/` — diagramas da arquitetura e distribuição.
+- `docs/design/` — documentação do Design System.
+
+Novos ADRs são criados quando decisões arquiteturais relevantes precisam ser registradas.
+
+O próximo ADR previsto é:
+
+- `ADR 0005` — isolamento dos dados por Tenant e estratégia de sincronização Room ↔ Supabase.
 
 ---
 
 <h2>
-    <img src="docs/images/daniella.png" width="42" alt="Daniella Rodrigues">
-    Desenvolvedora
+  <img src="docs/images/daniella.png" width="42" alt="Daniella Rodrigues">
+  Desenvolvedora
 </h2>
 
 **Daniella Rodrigues**
 
 Desenvolvedora Android • Kotlin • Jetpack Compose
 
-Desenvolvido como projeto de estudo e portfólio para demonstrar conhecimentos em desenvolvimento Android moderno utilizando Kotlin e Jetpack Compose.
+Desenvolvido como projeto de estudo e portfólio para demonstrar conhecimentos em desenvolvimento Android moderno, arquitetura, persistência local, backend remoto e evolução de um produto SaaS Multi-Tenant.

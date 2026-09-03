@@ -2,7 +2,7 @@
 
 ## Status
 
-Aceita.
+Aceito.
 
 ## Contexto
 
@@ -43,3 +43,14 @@ O acesso aos dados será realizado por meio de repositórios.
 - Maior quantidade de arquivos
 - Necessidade de definir responsabilidades com clareza
 - Curva de aprendizado maior que um projeto Android simples
+
+## Evolução
+
+Esta decisão define a arquitetura inicial do projeto.
+
+Decisões posteriores detalham a evolução da infraestrutura e da arquitetura:
+
+- ADR 0003 — Arquitetura SaaS Multi-Tenant
+- ADR 0004 — Autenticação e Resolução do Tenant
+
+A adoção do Supabase e da arquitetura Multi-Tenant complementa esta decisão sem alterar os princípios de separação de responsabilidades, uso de ViewModels, StateFlow e Repository Pattern.
