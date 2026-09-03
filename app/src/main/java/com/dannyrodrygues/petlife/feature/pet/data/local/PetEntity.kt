@@ -1,5 +1,6 @@
 package com.dannyrodrygues.petlife.feature.pet.data.local
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -7,6 +8,12 @@ import androidx.room.PrimaryKey
 data class PetEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
+
+    @ColumnInfo(
+        defaultValue = "'a8d79e94-9a4c-4385-bde1-6bc4b89a4c8a'",
+    )
+    val tenantId: String =
+        "a8d79e94-9a4c-4385-bde1-6bc4b89a4c8a",
 
     val name: String,
     val species: String,
@@ -17,4 +24,3 @@ data class PetEntity(
     val observations: String?,
     val photoUri: String?,
 )
-

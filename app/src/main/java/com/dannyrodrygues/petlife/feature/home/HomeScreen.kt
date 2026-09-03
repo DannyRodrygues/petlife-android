@@ -1,6 +1,5 @@
 package com.dannyrodrygues.petlife.feature.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -99,7 +98,8 @@ fun HomeScreen(
 
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .weight(1f)
+                    .fillMaxWidth()
                     .padding(
                         horizontal = PetLifeSpacing.Large,
                         vertical = PetLifeSpacing.Large,
@@ -202,35 +202,42 @@ fun HomeScreen(
                 /*
                  * Botão Cadastrar pet
                  */
-                Button(
-                    onClick = onAddPetClick,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .shadow(
-                            elevation = 6.dp,
-                            shape = MaterialTheme.shapes.large,
-                        ),
-                    shape = MaterialTheme.shapes.large,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                    ),
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center,
                 ) {
-                    Text(
-                        text = "+",
-                        style = MaterialTheme.typography.headlineSmall,
-                    )
+                    Button(
+                        onClick = onAddPetClick,
+                        modifier = Modifier
+                            .fillMaxWidth(0.60f)
+                            .height(48.dp)
+                            .shadow(
+                                elevation = 6.dp,
+                                shape = MaterialTheme.shapes.medium,
+                            ),
+                        shape = MaterialTheme.shapes.medium,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
+                    ) {
+                        Text(
+                            text = "+",
+                            style = MaterialTheme.typography.titleMedium,
+                        )
 
-                    Spacer(
-                        modifier = Modifier.width(PetLifeSpacing.Medium),
-                    )
+                        Spacer(
+                            modifier = Modifier.width(PetLifeSpacing.Small),
+                        )
 
-                    Text(
-                        text = stringResource(R.string.action_add_pet),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                    )
+                        Text(
+                            text = stringResource(R.string.action_add_pet),
+                            style = MaterialTheme.typography.labelLarge,
+                            fontWeight = FontWeight.SemiBold,
+                            maxLines = 1,
+                            softWrap = false,
+                        )
+                    }
                 }
             }
         }
@@ -242,13 +249,19 @@ private fun EmptyPetsContent(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(
+                top = PetLifeSpacing.Small,
+                bottom = PetLifeSpacing.Small,
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
+
         Box(
             modifier = Modifier
-                .size(112.dp)
+                .size(80.dp)
                 .clip(CircleShape)
                 .background(
                     MaterialTheme.colorScheme.primary.copy(
@@ -257,16 +270,16 @@ private fun EmptyPetsContent(
                 ),
             contentAlignment = Alignment.Center,
         ) {
-            Image(
-                painter = painterResource(R.drawable.empty_pet),
+            Icon(
+                painter = painterResource(R.drawable.icon_pet),
                 contentDescription = null,
-                modifier = Modifier.size(76.dp),
-                contentScale = ContentScale.Fit,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(58.dp),
             )
         }
 
         Spacer(
-            modifier = Modifier.height(PetLifeSpacing.ExtraLarge),
+            modifier = Modifier.height(PetLifeSpacing.Medium),
         )
 
         Text(
@@ -278,16 +291,7 @@ private fun EmptyPetsContent(
         )
 
         Spacer(
-            modifier = Modifier.height(PetLifeSpacing.Small),
-        )
-
-        Text(
-            text = stringResource(
-                R.string.home_empty_pets_description,
-            ),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
+            modifier = Modifier.height(PetLifeSpacing.ExtraSmall),
         )
     }
 }
@@ -368,11 +372,11 @@ private fun PetCard(
                         ),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Image(
-                        painter = painterResource(R.drawable.empty_pet),
+                    Icon(
+                        painter = painterResource(R.drawable.icon_pet),
                         contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(48.dp),
-                        contentScale = ContentScale.Fit,
                     )
                 }
             }

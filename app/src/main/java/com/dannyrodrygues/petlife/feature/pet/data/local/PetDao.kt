@@ -14,11 +14,29 @@ interface PetDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPet(pet: PetEntity): Long
 
-    @Query("SELECT * FROM pets ORDER BY name ASC")
-    fun getAllPets(): Flow<List<PetEntity>>
+    @Query(
+        """
+        SELECT * FROM pets
+        WHERE tenantId = :tenantId
+        ORDER BY name ASC
+        """,
+    )
+    fun getAllPets(
+        tenantId: String,
+    ): Flow<List<PetEntity>>
 
-    @Query("SELECT * FROM pets WHERE id = :petId LIMIT 1")
-    fun getPetById(petId: Long): Flow<PetEntity?>
+    @Query(
+        """
+        SELECT * FROM pets
+        WHERE id = :petId
+          AND tenantId = :tenantId
+        LIMIT 1
+        """,
+    )
+    fun getPetById(
+        petId: Long,
+        tenantId: String,
+    ): Flow<PetEntity?>
 
     @Update
     suspend fun updatePet(pet: PetEntity)
@@ -26,4 +44,3 @@ interface PetDao {
     @Delete
     suspend fun deletePet(pet: PetEntity)
 }
-

@@ -472,6 +472,7 @@ fun EditPetScreen(
                         )
                     }
                 },
+                widthFraction = 0.60f,
             )
 
             Spacer(

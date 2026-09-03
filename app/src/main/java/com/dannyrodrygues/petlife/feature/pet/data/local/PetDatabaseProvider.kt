@@ -17,7 +17,10 @@ object PetDatabaseProvider {
             )
                 .addMigrations(
                     PetDatabase.MIGRATION_1_2,
-                )
+                    PetDatabase.MIGRATION_2_3,
+                    PetDatabase.MIGRATION_3_4,
+
+                    )
                 .build()
 
             INSTANCE = instance
@@ -25,4 +28,3 @@ object PetDatabaseProvider {
         }
     }
 }
-

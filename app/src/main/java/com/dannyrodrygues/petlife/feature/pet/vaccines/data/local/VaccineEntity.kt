@@ -18,12 +18,15 @@ import com.dannyrodrygues.petlife.feature.pet.data.local.PetEntity
     ],
     indices = [
         Index(value = ["petId"]),
+        Index(value = ["tenantId", "petId"]),
     ],
 )
 data class VaccineEntity(
 
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
+
+    val tenantId: String = "",
 
     val petId: Long,
 

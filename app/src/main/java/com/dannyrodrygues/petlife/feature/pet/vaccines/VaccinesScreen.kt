@@ -1,6 +1,5 @@
 package com.dannyrodrygues.petlife.feature.pet.vaccines
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -34,7 +34,6 @@ import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
-import com.dannyrodrygues.petlife.core.components.PetLifeBrandBanner
 
 @Composable
 fun VaccinesScreen(
@@ -94,9 +93,10 @@ fun VaccinesScreen(
                     modifier = Modifier.weight(1f),
                 )
 
-                Image(
+                Icon(
                     painter = painterResource(R.drawable.paw_petlife),
                     contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(26.dp),
                 )
             }
@@ -220,6 +220,7 @@ fun VaccinesScreen(
                 PetLifePrimaryButton(
                     text = "+ Adicionar vacina",
                     onClick = onAddVaccineClick,
+                    widthFraction = 0.72f,
                 )
 
                 Spacer(

@@ -20,22 +20,26 @@ interface VaccineDao {
         """
         SELECT * FROM vaccines
         WHERE petId = :petId
+          AND tenantId = :tenantId
         ORDER BY applicationDateMillis DESC
         """
     )
     fun getVaccinesByPetId(
         petId: Long,
+        tenantId: String,
     ): Flow<List<VaccineEntity>>
 
     @Query(
         """
         SELECT * FROM vaccines
         WHERE id = :vaccineId
+          AND tenantId = :tenantId
         LIMIT 1
         """
     )
     fun getVaccineById(
         vaccineId: Long,
+        tenantId: String,
     ): Flow<VaccineEntity?>
 
     @Update

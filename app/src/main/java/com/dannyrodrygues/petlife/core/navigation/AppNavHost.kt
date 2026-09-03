@@ -39,6 +39,7 @@ import com.dannyrodrygues.petlife.feature.welcome.WelcomeScreen
 @Composable
 fun AppNavHost(
     navController: NavHostController,
+    resolvedTenantId: String?,
     onLoginSuccess: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -122,6 +123,9 @@ fun AppNavHost(
         // Home
         composable<AppDestination.Home> {
 
+            val tenantId =
+                resolvedTenantId ?: return@composable
+
             val context = LocalContext.current
 
             val database =
@@ -129,6 +133,7 @@ fun AppNavHost(
 
             val repository = PetRepository(
                 petDao = database.petDao(),
+                tenantId = tenantId,
             )
 
             val homeViewModel: HomeViewModel = viewModel(
@@ -159,6 +164,9 @@ fun AppNavHost(
         // Cadastrar pet
         composable<AppDestination.AddPet> {
 
+            val tenantId =
+                resolvedTenantId ?: return@composable
+
             val context = LocalContext.current
 
             val database =
@@ -166,6 +174,7 @@ fun AppNavHost(
 
             val repository = PetRepository(
                 petDao = database.petDao(),
+                tenantId = tenantId,
             )
 
             val addPetViewModel: AddPetViewModel = viewModel(
@@ -209,6 +218,9 @@ fun AppNavHost(
         // Detalhes do pet
         composable<AppDestination.PetDetails> { backStackEntry ->
 
+            val tenantId =
+                resolvedTenantId ?: return@composable
+
             val destination =
                 backStackEntry
                     .toRoute<AppDestination.PetDetails>()
@@ -220,6 +232,7 @@ fun AppNavHost(
 
             val repository = PetRepository(
                 petDao = database.petDao(),
+                tenantId = tenantId,
             )
 
             val petDetailsViewModel: PetDetailsViewModel =
@@ -252,13 +265,24 @@ fun AppNavHost(
                         ),
                     )
                 },
+                onDeleteClick = {
+                    pet?.let { currentPet ->
+                        petDetailsViewModel.deletePet(
+                            pet = currentPet,
+                            onDeleted = {
+                                navController.popBackStack()
+                            },
+                        )
+                    }
+                },
             )
         }
 
-
-
         // Vacinas
         composable<AppDestination.Vaccines> { backStackEntry ->
+
+            val tenantId =
+                resolvedTenantId ?: return@composable
 
             val destination =
                 backStackEntry
@@ -271,10 +295,12 @@ fun AppNavHost(
 
             val vaccineRepository = VaccineRepository(
                 vaccineDao = database.vaccineDao(),
+                tenantId = tenantId,
             )
 
             val petRepository = PetRepository(
                 petDao = database.petDao(),
+                tenantId = tenantId,
             )
 
             val vaccinesViewModel: VaccinesViewModel = viewModel(
@@ -312,6 +338,9 @@ fun AppNavHost(
         //add vaccines
         composable<AppDestination.AddVaccine> { backStackEntry ->
 
+            val tenantId =
+                resolvedTenantId ?: return@composable
+
             val destination =
                 backStackEntry
                     .toRoute<AppDestination.AddVaccine>()
@@ -323,6 +352,7 @@ fun AppNavHost(
 
             val repository = VaccineRepository(
                 vaccineDao = database.vaccineDao(),
+                tenantId = tenantId,
             )
 
             val addVaccineViewModel: AddVaccineViewModel = viewModel(
@@ -362,6 +392,9 @@ fun AppNavHost(
         //edit pet
         composable<AppDestination.EditPet> { backStackEntry ->
 
+            val tenantId =
+                resolvedTenantId ?: return@composable
+
             val destination =
                 backStackEntry
                     .toRoute<AppDestination.EditPet>()
@@ -373,6 +406,7 @@ fun AppNavHost(
 
             val repository = PetRepository(
                 petDao = database.petDao(),
+                tenantId = tenantId,
             )
 
             val editPetViewModel: EditPetViewModel = viewModel(

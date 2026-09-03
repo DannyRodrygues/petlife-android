@@ -22,6 +22,10 @@ fun PetLifeApp() {
         .tenantConfig
         .collectAsState()
 
+    val resolvedTenantId by tenantViewModel
+        .resolvedTenantId
+        .collectAsState()
+
     TenantProvider(
         tenantConfig = tenantConfig,
     ) {
@@ -35,7 +39,9 @@ fun PetLifeApp() {
 
             AppNavHost(
                 navController = navController,
-                onLoginSuccess = tenantViewModel::refreshCurrentTenant,
+                resolvedTenantId = resolvedTenantId,
+                onLoginSuccess =
+                tenantViewModel::refreshCurrentTenant,
             )
         }
     }

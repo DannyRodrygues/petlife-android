@@ -7,9 +7,10 @@ import com.dannyrodrygues.petlife.feature.pet.data.repository.PetRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class PetDetailsViewModel(
-    repository: PetRepository,
+    private val repository: PetRepository,
     petId: Long,
 ) : ViewModel() {
 
@@ -21,4 +22,15 @@ class PetDetailsViewModel(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = null,
             )
+
+    fun deletePet(
+        pet: PetEntity,
+        onDeleted: () -> Unit,
+    ) {
+        viewModelScope.launch {
+            repository.deletePet(pet)
+
+            onDeleted()
+        }
+    }
 }

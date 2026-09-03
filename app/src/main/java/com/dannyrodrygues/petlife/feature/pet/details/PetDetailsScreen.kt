@@ -1,8 +1,8 @@
 package com.dannyrodrygues.petlife.feature.pet.details
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,16 +19,22 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,7 +58,12 @@ fun PetDetailsScreen(
     onMedicationsClick: () -> Unit = {},
     onWeightClick: () -> Unit = {},
     onEditClick: () -> Unit = {},
+    onDeleteClick: () -> Unit = {},
 ) {
+    var showDeleteDialog by remember {
+        mutableStateOf(false)
+    }
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = MaterialTheme.colorScheme.background,
@@ -129,16 +140,26 @@ fun PetDetailsScreen(
                                     contentScale = ContentScale.Crop,
                                 )
                             } else {
-                                Image(
-                                    painter = painterResource(
-                                        R.drawable.empty_pet,
-                                    ),
-                                    contentDescription = null,
+                                Box(
                                     modifier = Modifier
                                         .size(112.dp)
-                                        .clip(CircleShape),
-                                    contentScale = ContentScale.Fit,
-                                )
+                                        .clip(CircleShape)
+                                        .background(
+                                            MaterialTheme.colorScheme.primary.copy(
+                                                alpha = 0.08f,
+                                            ),
+                                        ),
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    Icon(
+                                        painter = painterResource(
+                                            R.drawable.icon_pet,
+                                        ),
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.size(76.dp),
+                                    )
+                                }
                             }
 
                             Spacer(
@@ -347,33 +368,69 @@ fun PetDetailsScreen(
                 )
 
                 /*
-                 * Editar dados
-                 */
-                Button(
-                    onClick = onEditClick,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp),
-                    shape = MaterialTheme.shapes.large,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
+ * Ações do pet
+ */
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        PetLifeSpacing.Small,
                     ),
                 ) {
-                    Text(
-                        text = "✎",
-                        style = MaterialTheme.typography.titleLarge,
-                    )
+                    Button(
+                        onClick = onEditClick,
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(48.dp),
+                        shape = MaterialTheme.shapes.medium,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
+                    ) {
+                        Text(
+                            text = "✎",
+                            style = MaterialTheme.typography.titleMedium,
+                        )
 
-                    Spacer(
-                        modifier = Modifier.width(PetLifeSpacing.Small),
-                    )
+                        Spacer(
+                            modifier = Modifier.width(PetLifeSpacing.ExtraSmall),
+                        )
 
-                    Text(
-                        text = "Editar dados do pet",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                    )
+                        Text(
+                            text = "Editar pet",
+                            style = MaterialTheme.typography.labelLarge,
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                    }
+
+                    Button(
+                        onClick = {
+                            showDeleteDialog = true
+                        },
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(48.dp),
+                        shape = MaterialTheme.shapes.medium,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
+                    ) {
+                        Text(
+                            text = "🗑",
+                            style = MaterialTheme.typography.titleMedium,
+                        )
+
+                        Spacer(
+                            modifier = Modifier.width(PetLifeSpacing.ExtraSmall),
+                        )
+
+                        Text(
+                            text = "Excluir pet",
+                            style = MaterialTheme.typography.labelLarge,
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                    }
                 }
 
                 Spacer(
@@ -385,9 +442,7 @@ fun PetDetailsScreen(
                  */
                 TextButton(
                     onClick = onBackClick,
-                    modifier = Modifier.align(
-                        Alignment.CenterHorizontally,
-                    ),
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     Text(
                         text = "Voltar",
@@ -396,11 +451,55 @@ fun PetDetailsScreen(
                         fontWeight = FontWeight.Medium,
                     )
                 }
-
-                Spacer(
-                    modifier = Modifier.height(PetLifeSpacing.Medium),
-                )
             }
+        }
+
+        /*
+     * Confirmação de exclusão
+     */
+        if (showDeleteDialog && pet != null) {
+            AlertDialog(
+                onDismissRequest = {
+                    showDeleteDialog = false
+                },
+                title = {
+                    Text(
+                        text = "Excluir pet?",
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                },
+                text = {
+                    Text(
+                        text = "Tem certeza que deseja excluir ${pet.name}? " +
+                                "Esta ação não poderá ser desfeita.",
+                    )
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            showDeleteDialog = false
+                        },
+                    ) {
+                        Text(
+                            text = "Cancelar",
+                        )
+                    }
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            showDeleteDialog = false
+                            onDeleteClick()
+                        },
+                    ) {
+                        Text(
+                            text = "Excluir",
+                            color = MaterialTheme.colorScheme.error,
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                    }
+                },
+            )
         }
     }
 }

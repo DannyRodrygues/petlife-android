@@ -1,5 +1,6 @@
 package com.dannyrodrygues.petlife.core.components
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
@@ -7,8 +8,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun PetLifePrimaryButton(
@@ -16,19 +19,27 @@ fun PetLifePrimaryButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    widthFraction: Float = 0.48f,
 ) {
-    Button(
-        onClick = onClick,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(PetLifeSpacing.ExtraExtraLarge),
-        enabled = enabled,
-        shape = MaterialTheme.shapes.medium,
+    Box(
+        modifier = modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center,
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelLarge,
-        )
+        Button(
+            onClick = onClick,
+            modifier = Modifier
+                .height(48.dp),
+            enabled = enabled,
+            shape = MaterialTheme.shapes.medium,
+        ) {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.labelLarge,
+                maxLines = 1,
+                softWrap = false,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
     }
 }
 
@@ -39,17 +50,24 @@ fun PetLifeOutlinedButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
 ) {
-    OutlinedButton(
-        onClick = onClick,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(PetLifeSpacing.ExtraExtraLarge),
-        enabled = enabled,
-        shape = MaterialTheme.shapes.medium,
+    Box(
+        modifier = modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center,
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelLarge,
-        )
+        OutlinedButton(
+            onClick = onClick,
+            modifier = Modifier
+                .height(48.dp),
+            enabled = enabled,
+            shape = MaterialTheme.shapes.medium,
+        ) {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.labelLarge,
+                maxLines = 1,
+                softWrap = false,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
     }
 }
