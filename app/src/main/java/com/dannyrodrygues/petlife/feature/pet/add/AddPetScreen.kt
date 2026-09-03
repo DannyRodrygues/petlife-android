@@ -3,7 +3,6 @@ package com.dannyrodrygues.petlife.feature.pet.add
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,14 +30,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.dannyrodrygues.petlife.R
+import com.dannyrodrygues.petlife.core.components.PetLifeBrandBanner
 import com.dannyrodrygues.petlife.core.components.PetLifePrimaryButton
 import com.dannyrodrygues.petlife.feature.pet.data.local.PetImageStorage
 import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
@@ -161,14 +159,8 @@ fun AddPetScreen(
         /*
          * Banner
          */
-        Image(
-            painter = painterResource(R.drawable.home_banner),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(130.dp),
-            contentScale = ContentScale.Crop,
-        )
+
+        PetLifeBrandBanner()
 
         Column(
             modifier = Modifier

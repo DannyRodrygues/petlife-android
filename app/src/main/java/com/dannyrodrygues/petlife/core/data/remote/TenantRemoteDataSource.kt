@@ -23,6 +23,19 @@ class TenantRemoteDataSource(
             .decodeSingle<TenantDto>()
     }
 
+    suspend fun getTenantById(
+        tenantId: String,
+    ): TenantDto {
+        return client
+            .from("tenants")
+            .select {
+                filter {
+                    eq("id", tenantId)
+                }
+            }
+            .decodeSingle<TenantDto>()
+    }
+
     suspend fun getBrandConfigByTenantId(
         tenantId: String,
     ): BrandConfigDto {

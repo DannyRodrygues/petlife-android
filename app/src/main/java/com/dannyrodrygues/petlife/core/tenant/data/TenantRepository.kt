@@ -14,17 +14,30 @@ class TenantRepository(
     ): TenantConfig {
 
         val tenantDto =
-            remoteDataSource.getTenantByName(
-                name = name,
+            remoteDataSource.getTenantByName(name,)
+
+        val brandConfigDto =
+            remoteDataSource.getBrandConfigByTenantId(tenantDto.id,)
+
+        return tenantDto.toTenantConfig(brandConfigDto,)
+    }
+
+    suspend fun getTenantById(
+        tenantId: String,
+    ): TenantConfig {
+        val tenantDto =
+            remoteDataSource.getTenantById(
+                tenantId,
             )
 
         val brandConfigDto =
             remoteDataSource.getBrandConfigByTenantId(
-                tenantId = tenantDto.id,
+                tenantDto.id,
             )
 
         return tenantDto.toTenantConfig(
-            brandConfigDto = brandConfigDto,
+            brandConfigDto,
         )
     }
 }
+

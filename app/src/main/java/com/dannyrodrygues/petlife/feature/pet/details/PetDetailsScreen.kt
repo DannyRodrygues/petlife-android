@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -39,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.dannyrodrygues.petlife.R
+import com.dannyrodrygues.petlife.core.components.PetLifeBrandBanner
 import com.dannyrodrygues.petlife.feature.pet.data.local.PetEntity
 import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
 
@@ -90,14 +90,7 @@ fun PetDetailsScreen(
             /*
              * Banner
              */
-            Image(
-                painter = painterResource(R.drawable.home_banner),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1080f / 420f),
-                contentScale = ContentScale.FillWidth,
-            )
+            PetLifeBrandBanner()
 
             Column(
                 modifier = Modifier

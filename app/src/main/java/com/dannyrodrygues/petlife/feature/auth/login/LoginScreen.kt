@@ -19,6 +19,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -31,11 +33,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dannyrodrygues.petlife.R
 import com.dannyrodrygues.petlife.core.components.PetLifeBrandLogo
 import com.dannyrodrygues.petlife.core.components.PetLifePrimaryButton
 import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
-import com.dannyrodrygues.petlife.core.components.PetLifeBrandLogo
 
 @Composable
 fun LoginScreen(
@@ -45,12 +47,25 @@ fun LoginScreen(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val loginViewModel: LoginViewModel = viewModel()
+
+    val uiState by loginViewModel
+        .uiState
+        .collectAsState()
+
     var email by rememberSaveable {
         mutableStateOf("")
     }
 
     var password by rememberSaveable {
         mutableStateOf("")
+    }
+
+    LaunchedEffect(uiState.isLoginSuccessful) {
+        if (uiState.isLoginSuccessful) {
+            loginViewModel.consumeLoginSuccess()
+            onLoginClick()
+        }
     }
 
     Column(
@@ -169,10 +184,39 @@ fun LoginScreen(
                 modifier = Modifier.height(PetLifeSpacing.Medium),
             )
 
+            //pergunta ao Supabase se o e-mail e a senha estão corretos.
             PetLifePrimaryButton(
-                text = stringResource(R.string.action_login),
-                onClick = onLoginClick,
+                text = if (uiState.isLoading) {
+                    "Entrando..."
+                } else {
+                    stringResource(R.string.action_login)
+                },
+                onClick = {
+                    if (!uiState.isLoading) {
+                        loginViewModel.signIn(
+                            email = email,
+                            password = password,
+                        )
+                    }
+                },
             )
+
+            // mostra a mensagem de erro
+
+            uiState.errorMessage?.let { errorMessage ->
+                Spacer(
+                    modifier = Modifier.height(
+                        PetLifeSpacing.Small,
+                    ),
+                )
+
+                Text(
+                    text = errorMessage,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                    textAlign = TextAlign.Center,
+                )
+            }
 
             Spacer(
                 modifier = Modifier.height(PetLifeSpacing.Small),

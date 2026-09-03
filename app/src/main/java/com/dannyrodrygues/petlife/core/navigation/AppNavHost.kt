@@ -39,6 +39,7 @@ import com.dannyrodrygues.petlife.feature.welcome.WelcomeScreen
 @Composable
 fun AppNavHost(
     navController: NavHostController,
+    onLoginSuccess: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     NavHost(
@@ -63,6 +64,8 @@ fun AppNavHost(
         composable<AppDestination.Login> {
             LoginScreen(
                 onLoginClick = {
+                    onLoginSuccess()
+
                     navController.navigate(AppDestination.Home) {
                         popUpTo(AppDestination.Welcome) {
                             inclusive = true

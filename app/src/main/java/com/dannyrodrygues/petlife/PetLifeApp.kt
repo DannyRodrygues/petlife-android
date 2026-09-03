@@ -35,6 +35,7 @@ fun PetLifeApp() {
 
             AppNavHost(
                 navController = navController,
+                onLoginSuccess = tenantViewModel::refreshCurrentTenant,
             )
         }
     }

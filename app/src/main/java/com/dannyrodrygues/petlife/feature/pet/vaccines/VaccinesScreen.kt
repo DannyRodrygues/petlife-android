@@ -34,6 +34,7 @@ import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
+import com.dannyrodrygues.petlife.core.components.PetLifeBrandBanner
 
 @Composable
 fun VaccinesScreen(
