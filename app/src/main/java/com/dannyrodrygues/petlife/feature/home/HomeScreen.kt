@@ -30,6 +30,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,19 +49,33 @@ import com.dannyrodrygues.petlife.core.tenant.LocalTenantConfig
 import com.dannyrodrygues.petlife.feature.pet.data.local.PetEntity
 import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
 
-
 @Composable
 fun HomeScreen(
     pets: List<PetEntity>,
     onAddPetClick: () -> Unit,
     onPetClick: (Long) -> Unit,
+    onSync: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
+
+    /*
+     * Sempre que a Home entrar novamente
+     * na composição, solicita uma sincronização.
+     *
+     * Isso permite atualizar dados vindos
+     * do Supabase sem precisar fechar o app.
+     */
+    LaunchedEffect(Unit) {
+        onSync()
+    }
+
     val tenant = LocalTenantConfig.current
+
     val remoteBannerUrl =
         BrandAssetUrlProvider.getPublicUrl(
             tenant.brand.bannerPath,
         )
+
     Scaffold(
         modifier = modifier
             .fillMaxSize()
@@ -129,7 +144,9 @@ fun HomeScreen(
                 }
 
                 Spacer(
-                    modifier = Modifier.height(PetLifeSpacing.ExtraSmall),
+                    modifier = Modifier.height(
+                        PetLifeSpacing.ExtraSmall,
+                    ),
                 )
 
                 Text(
@@ -142,7 +159,9 @@ fun HomeScreen(
                 )
 
                 Spacer(
-                    modifier = Modifier.height(PetLifeSpacing.ExtraLarge),
+                    modifier = Modifier.height(
+                        PetLifeSpacing.ExtraLarge,
+                    ),
                 )
 
                 /*
@@ -152,18 +171,26 @@ fun HomeScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.paw_petlife),
+                        painter = painterResource(
+                            R.drawable.paw_petlife,
+                        ),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(PetLifeSpacing.Large),
+                        modifier = Modifier.size(
+                            PetLifeSpacing.Large,
+                        ),
                     )
 
                     Spacer(
-                        modifier = Modifier.width(PetLifeSpacing.Small),
+                        modifier = Modifier.width(
+                            PetLifeSpacing.Small,
+                        ),
                     )
 
                     Text(
-                        text = stringResource(R.string.home_pets_title),
+                        text = stringResource(
+                            R.string.home_pets_title,
+                        ),
                         style = MaterialTheme.typography.headlineSmall,
                         color = MaterialTheme.colorScheme.onBackground,
                         fontWeight = FontWeight.SemiBold,
@@ -171,7 +198,9 @@ fun HomeScreen(
                 }
 
                 Spacer(
-                    modifier = Modifier.height(PetLifeSpacing.Small),
+                    modifier = Modifier.height(
+                        PetLifeSpacing.Small,
+                    ),
                 )
 
                 HorizontalDivider(
@@ -217,8 +246,10 @@ fun HomeScreen(
                             ),
                         shape = MaterialTheme.shapes.medium,
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                            containerColor =
+                            MaterialTheme.colorScheme.primary,
+                            contentColor =
+                            MaterialTheme.colorScheme.onPrimary,
                         ),
                     ) {
                         Text(
@@ -227,11 +258,15 @@ fun HomeScreen(
                         )
 
                         Spacer(
-                            modifier = Modifier.width(PetLifeSpacing.Small),
+                            modifier = Modifier.width(
+                                PetLifeSpacing.Small,
+                            ),
                         )
 
                         Text(
-                            text = stringResource(R.string.action_add_pet),
+                            text = stringResource(
+                                R.string.action_add_pet,
+                            ),
                             style = MaterialTheme.typography.labelLarge,
                             fontWeight = FontWeight.SemiBold,
                             maxLines = 1,
@@ -271,7 +306,9 @@ private fun EmptyPetsContent(
             contentAlignment = Alignment.Center,
         ) {
             Icon(
-                painter = painterResource(R.drawable.icon_pet),
+                painter = painterResource(
+                    R.drawable.icon_pet,
+                ),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(58.dp),
@@ -279,11 +316,15 @@ private fun EmptyPetsContent(
         }
 
         Spacer(
-            modifier = Modifier.height(PetLifeSpacing.Medium),
+            modifier = Modifier.height(
+                PetLifeSpacing.Medium,
+            ),
         )
 
         Text(
-            text = stringResource(R.string.home_empty_pets),
+            text = stringResource(
+                R.string.home_empty_pets,
+            ),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.SemiBold,
@@ -291,7 +332,9 @@ private fun EmptyPetsContent(
         )
 
         Spacer(
-            modifier = Modifier.height(PetLifeSpacing.ExtraSmall),
+            modifier = Modifier.height(
+                PetLifeSpacing.ExtraSmall,
+            ),
         )
     }
 }
@@ -305,7 +348,9 @@ private fun PetsContent(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(
+                rememberScrollState(),
+            )
             .padding(
                 top = PetLifeSpacing.Medium,
                 bottom = PetLifeSpacing.Medium,
@@ -335,7 +380,8 @@ private fun PetCard(
         modifier = Modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.large,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
+            containerColor =
+            MaterialTheme.colorScheme.surface,
         ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp,
@@ -352,15 +398,19 @@ private fun PetCard(
              * Foto do pet
              */
             if (!pet.photoUri.isNullOrBlank()) {
+
                 AsyncImage(
                     model = pet.photoUri,
-                    contentDescription = "Foto de ${pet.name}",
+                    contentDescription =
+                    "Foto de ${pet.name}",
                     modifier = Modifier
                         .size(72.dp)
                         .clip(CircleShape),
                     contentScale = ContentScale.Crop,
                 )
+
             } else {
+
                 Box(
                     modifier = Modifier
                         .size(72.dp)
@@ -373,7 +423,9 @@ private fun PetCard(
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.icon_pet),
+                        painter = painterResource(
+                            R.drawable.icon_pet,
+                        ),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(48.dp),
@@ -382,7 +434,9 @@ private fun PetCard(
             }
 
             Spacer(
-                modifier = Modifier.width(PetLifeSpacing.Medium),
+                modifier = Modifier.width(
+                    PetLifeSpacing.Medium,
+                ),
             )
 
             /*
@@ -407,14 +461,16 @@ private fun PetCard(
                 Text(
                     text = pet.species,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color =
+                    MaterialTheme.colorScheme.onSurfaceVariant,
                 )
 
                 if (!pet.breed.isNullOrBlank()) {
                     Text(
                         text = pet.breed,
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        color =
+                        MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             }

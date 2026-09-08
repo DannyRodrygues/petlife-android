@@ -158,6 +158,9 @@ fun AppNavHost(
                         ),
                     )
                 },
+                onSync = {
+                    homeViewModel.syncPets()
+                },
             )
         }
 

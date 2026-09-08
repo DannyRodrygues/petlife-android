@@ -60,6 +60,7 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Botão para cadastro de Pet.
 - Listagem dinâmica dos pets cadastrados.
 - Cards clicáveis para abertura dos detalhes do Pet.
+- Sincronização solicitada novamente ao retornar para a Home.
 
 #### Pets
 
@@ -73,7 +74,6 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Validação dos campos obrigatórios.
 - Persistência local utilizando Room.
 - `PetDao`.
-- `PetDatabase`.
 - `PetRepository`.
 - `AddPetViewModel`.
 - `HomeViewModel`.
@@ -83,6 +83,12 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Tela de edição dos dados do Pet.
 - `EditPetViewModel`.
 - Persistência das alterações realizadas no Pet.
+- Exclusão de Pet com confirmação.
+- Exclusão local em cascata dos dados relacionados.
+- Identificação local através de `id`.
+- Identificação remota através de `remoteId`.
+- Estado de sincronização através de `pendingSync`.
+- Estado de exclusão pendente através de `pendingDelete`.
 
 #### Vacinas
 
@@ -95,7 +101,9 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - `VaccineRepository`.
 - ViewModels específicos para Vacinas.
 - Persistência local das vacinas utilizando Room.
-- Migration do banco Room da versão 1 para 2 preservando dados existentes.
+- Evolução do banco através de migrations preservando dados existentes.
+- Isolamento de Vacinas por Tenant.
+- Associação automática da Vacina ao Tenant autenticado.
 
 #### Arquitetura SaaS Multi-Tenant
 
@@ -110,6 +118,8 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Conversão de cores HEX remotas para cores do Jetpack Compose.
 - Fallback local utilizando a identidade visual padrão do PetLife.
 - Estrutura preparada para múltiplas empresas utilizando o mesmo aplicativo.
+- Separação entre Tenant visual de fallback e Tenant autenticado efetivamente resolvido.
+- `resolvedTenantId` utilizado para acesso aos dados de negócio.
 
 #### Supabase
 
@@ -122,14 +132,18 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Integração com Ktor Client Android.
 - Criação da tabela `tenants`.
 - Criação da tabela `brand_configs`.
+- Criação da tabela `profiles`.
+- Criação da tabela remota `public.pets`.
 - Configuração de Row Level Security nas tabelas remotas.
+- Políticas RLS de SELECT, INSERT, UPDATE e DELETE para Pets.
 - Criação do bucket público `tenant-branding`.
 - Organização dos arquivos de branding por UUID do Tenant.
 - Armazenamento remoto de logomarca e banner por empresa.
 - Criação de DTOs para Tenant e BrandConfig.
-- Criação de mapper entre DTOs remotos e modelos da aplicação.
+- Criação de DTOs remotos para Pets.
+- Criação de mappers entre entidades locais e DTOs remotos.
 - Criação do `TenantRemoteDataSource`.
-- Criação do `TenantRepository`.
+- Criação do `PetRemoteDataSource`.
 
 #### Branding remoto
 
@@ -156,13 +170,12 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Validação de campos vazios no login.
 - Tratamento de credenciais inválidas.
 - Feedback visual durante autenticação.
-- Criação da tabela `profiles`.
 - Associação entre `profiles.id` e `auth.users.id`.
 - Associação de usuários a empresas através de `profiles.tenant_id`.
-- Campo `role` para futura implementação de permissões.
+- Campo `role` preparado para futura implementação de permissões.
 - Campo `active` para controle de usuários ativos.
 - Row Level Security na tabela `profiles`.
-- Policy permitindo que o usuário autenticado consulte apenas o próprio profile.
+- Policy permitindo que o usuário autenticado consulte apenas o próprio Profile.
 - Criação do `ProfileDto`.
 - Criação do `ProfileRemoteDataSource`.
 - Busca do Tenant através de UUID.
@@ -172,6 +185,69 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Resolução automática do Tenant através do usuário autenticado.
 - Atualização do Tenant ativo após login através de `refreshCurrentTenant()`.
 - Utilização da mesma instância de `TenantViewModel` criada no `PetLifeApp`.
+
+#### Isolamento de dados por Tenant
+
+- Inclusão de `tenantId` em `PetEntity`.
+- Inclusão de `tenantId` em `VaccineEntity`.
+- Consultas do Room filtradas pelo Tenant autenticado.
+- Repositórios vinculados ao Tenant resolvido.
+- Validação de Tenant em operações de alteração e exclusão.
+- Migrations Room preservando Pets existentes.
+- Migrations Room preservando Vacinas existentes.
+- Associação dos Pets históricos ao Tenant PetLife.
+- Associação das Vacinas históricas ao Tenant dos respectivos Pets.
+- Índices locais para consultas por Tenant.
+- Validação do isolamento local entre PetLife e Clínica Bicho Feliz.
+- Validação do isolamento remoto de Pets através de RLS.
+
+#### Sincronização Room ↔ Supabase para Pets
+
+- Persistência remota de Pets no Supabase.
+- Criação local-first de Pets.
+- Envio de Pets novos para o Supabase.
+- Armazenamento do UUID remoto em `remoteId`.
+- Sincronização de Pets antigos que já existiam no Room.
+- Importação para o Room de Pets criados diretamente no Supabase.
+- Prevenção de duplicação através de `remoteId`.
+- Atualização remota de Pets editados no aplicativo.
+- Atualização local de Pets alterados no Supabase.
+- Conversão de data entre `dd/MM/yyyy` no aplicativo e `yyyy-MM-dd` no backend.
+- Proteção por `tenantId` durante UPDATE remoto.
+- Sincronização disparada novamente ao retornar para a Home.
+
+#### Edição offline de Pets
+
+- Inclusão da flag `pendingSync` no Room.
+- Migration Room para inclusão de `pendingSync`.
+- Marcação explícita de alterações pendentes.
+- Persistência local de edições mesmo sem conexão.
+- Busca de Pets com edição pendente.
+- Reenvio automático das alterações após retorno da conexão.
+- Limpeza de `pendingSync` apenas após confirmação do Supabase.
+- Proteção contra sobrescrita remota quando existir alteração local pendente.
+- Validação real do fluxo desligando e restabelecendo a conexão.
+
+#### Exclusão e soft delete de Pets
+
+- Inclusão da flag `pendingDelete` no Room.
+- Migration Room para inclusão de `pendingDelete`.
+- Pets pendentes de exclusão deixam de aparecer na Home.
+- Preservação temporária do registro local para manter o `remoteId`.
+- Implementação de soft delete remoto através de `deleted_at`.
+- Reenvio de exclusões pendentes após retorno da conexão.
+- Remoção física do Room somente após confirmação do Supabase.
+- Remoção local de Pets excluídos remotamente.
+- Exclusão em cascata das Vacinas locais relacionadas ao Pet.
+- Validação real de exclusão offline e posterior sincronização.
+
+#### Controle de timestamps
+
+- Uso de `created_at` e `updated_at` na tabela remota de Pets.
+- Criação de trigger PostgreSQL para atualizar `updated_at` automaticamente.
+- Armazenamento dos timestamps em UTC.
+- Definição de conversão para o fuso local apenas na camada de apresentação.
+- Preparação da arquitetura para futura resolução de conflitos por timestamp.
 
 #### Validação Multi-Tenant
 
@@ -184,6 +260,9 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Validação da troca automática da logomarca.
 - Validação da troca automática do banner.
 - Validação do mesmo aplicativo utilizando identidades visuais diferentes sem alteração de código ou novo build.
+- Validação de Pets isolados localmente por Tenant.
+- Validação de Pets isolados remotamente por Tenant.
+- Validação de criação, edição e exclusão sincronizadas nos dois Tenants.
 
 #### Documentação
 
@@ -192,12 +271,13 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Criação da estrutura `docs/adr/`.
 - Criação da estrutura `docs/architecture/`.
 - Criação da estrutura `docs/design/`.
-- Criação do ADR 001 sobre a arquitetura SaaS Multi-Tenant.
-- Criação do ADR 002 sobre autenticação e resolução do Tenant.
+- Criação do ADR 0003 sobre arquitetura SaaS Multi-Tenant.
+- Criação do ADR 0004 sobre autenticação e resolução do Tenant.
+- Criação do ADR 0005 sobre isolamento de dados por Tenant e estratégia de sincronização.
 - Criação de diagramas da arquitetura Multi-Tenant.
 - Criação de diagramas de distribuição e administração.
 - Criação de versões editáveis dos diagramas em Excalidraw.
-- Atualização do README para refletir Supabase, autenticação e arquitetura Multi-Tenant.
+- Atualização do README para refletir Supabase, autenticação, Multi-Tenant e sincronização offline-first.
 
 ---
 
@@ -214,6 +294,8 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Atualização da cor secundária para o azul da identidade visual.
 - Refatoração dos formulários para reutilização de componentes.
 - Refatoração da interface de Vacinas utilizando componentes reutilizáveis.
+- Ícones e elementos gráficos passaram a utilizar `MaterialTheme.colorScheme.primary`.
+- Botões principais tiveram largura e altura refinadas por contexto de tela.
 
 #### Home e Pets
 
@@ -224,6 +306,9 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Tela de edição passou a utilizar `EditPetViewModel`.
 - Dados da tela de detalhes passaram a ser atualizados após edição.
 - Fluxo de imagens foi ajustado para preservar o acesso após reiniciar o aplicativo.
+- Home passou a solicitar sincronização quando entra novamente na composição.
+- Pets marcados com `pendingDelete` deixaram de aparecer nas consultas normais.
+- `PetRepository` passou a coordenar persistência local e remota.
 
 #### Arquitetura Multi-Tenant
 
@@ -236,6 +321,8 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Banner local fixo foi substituído por componente de branding dinâmico.
 - Logomarca local fixa foi substituída por componente de branding dinâmico.
 - Telas passaram a compartilhar os componentes `PetLifeBrandLogo` e `PetLifeBrandBanner`.
+- Acesso a dados de negócio deixou de utilizar o Tenant visual de fallback.
+- `resolvedTenantId` passou a controlar os repositórios e rotas de dados.
 
 #### Autenticação e Tenant
 
@@ -249,18 +336,47 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - `TenantViewModel` passou a atualizar o Tenant após uma autenticação bem-sucedida.
 - Tema da aplicação passou a refletir automaticamente o Tenant do usuário autenticado.
 
+#### Persistência local
+
+- Banco Room evoluído através de migrations sem perda dos dados existentes.
+- Pets passaram a possuir `tenantId`.
+- Vacinas passaram a possuir `tenantId`.
+- Pets passaram a possuir `remoteId`.
+- Pets passaram a possuir `pendingSync`.
+- Pets passaram a possuir `pendingDelete`.
+- DAOs passaram a filtrar registros pelo Tenant autenticado.
+- Consultas passaram a ocultar Pets com exclusão pendente.
+
+#### Sincronização
+
+- Criação de Pets passou a utilizar estratégia local-first.
+- Edição de Pets passou a preservar alterações localmente antes do envio remoto.
+- Exclusão passou de remoção exclusivamente local para soft delete sincronizado.
+- Dados remotos passaram a atualizar registros locais já existentes.
+- Exclusões remotas passaram a ser refletidas no Room.
+- Alterações locais pendentes passaram a ter prioridade sobre atualizações remotas.
+- Ordem de sincronização definida como:
+
+```text
+1. Pets novos
+2. Edições pendentes
+3. Exclusões pendentes
+4. Dados remotos
+```
+
 #### README
 
 - README reorganizado para refletir o estado atual do projeto.
-- Firebase removido da documentação planejada.
-- Supabase adicionado às tecnologias do projeto.
-- Arquitetura SaaS Multi-Tenant adicionada ao README.
-- Funcionalidades implementadas reorganizadas por categoria.
-- Funcionalidades planejadas atualizadas.
-- Arquitetura atualizada com Room e Supabase.
-- Estrutura de diretórios atualizada.
-- Histórico do projeto consolidado e sem duplicações.
-- ADR 0001, ADR 0002, ADR 0003 e ADR 0004 adicionados à seção de documentação.
+- Supabase consolidado como backend remoto.
+- Arquitetura SaaS Multi-Tenant documentada.
+- Persistência remota de Pets documentada como implementada.
+- RLS para Pets documentado como implementado.
+- Estratégia offline-first adicionada.
+- Sincronização Room ↔ Supabase detalhada.
+- Limitações atuais documentadas.
+- Funcionalidades planejadas revisadas.
+- Histórico do projeto atualizado.
+- ADR 0005 adicionado à seção de documentação.
 
 ---
 
@@ -283,12 +399,22 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Corrigido problema de perda da foto do Pet após fechar e abrir o aplicativo.
 - Corrigido fluxo de edição dos dados do Pet.
 - Persistência das alterações do Pet ajustada.
+- Corrigido acesso a Pets de Tenant diferente no Room.
+- Corrigida ausência do vínculo entre registro local e UUID remoto.
+- Corrigido fluxo de sincronização de Pets antigos com `remoteId = NULL`.
+- Corrigido estado `pendingSync` que não permanecia marcado durante falha de conexão.
+- Corrigida exclusão offline para não perder o `remoteId` antes da sincronização.
+- Corrigido comportamento de Pets excluídos remotamente permanecerem no Room.
+- Corrigido comportamento de atualizações remotas não serem refletidas em Pets locais.
+- Corrigida necessidade de reiniciar completamente o aplicativo para receber algumas alterações remotas.
+- Corrigido `updated_at` remoto que não era alterado automaticamente após UPDATE.
 
 #### Vacinas
 
 - Corrigidos problemas visuais em textos longos dos cards de Vacinas.
 - Ajustado layout do histórico de Vacinas.
 - Corrigido relacionamento e carregamento das Vacinas associadas ao Pet.
+- Corrigido isolamento de Vacinas por Tenant.
 
 #### Autenticação
 
@@ -306,14 +432,17 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Corrigido ícone da patinha que permanecia com cor fixa.
 - Corrigido carregamento remoto de branding após identificação do Tenant.
 - Ajustado fallback de logomarca e banner quando os paths remotos forem nulos ou apresentarem falha.
+- Corrigido risco de utilizar o Tenant visual de fallback como Tenant de dados.
+- Corrigido compartilhamento local de Pets entre empresas.
+- Corrigido compartilhamento local de Vacinas entre empresas.
 
 ---
 
 ### 📌 Estado atual conhecido
 
-A autenticação e o branding Multi-Tenant já foram implementados e validados com usuários pertencentes a empresas diferentes.
+A autenticação, o branding e o isolamento Multi-Tenant estão implementados e validados com usuários pertencentes a empresas diferentes.
 
-Atualmente, o isolamento visual funciona corretamente:
+O fluxo atual de resolução é:
 
 ```text
 Usuário
@@ -324,30 +453,61 @@ Profile
    ↓
 tenant_id
    ↓
-Tenant
+resolvedTenantId
    ↓
-BrandConfig
+Repositories vinculados ao Tenant
    ↓
-Nome + Cores + Logo + Banner
+Room + Supabase
 ```
 
-Entretanto, os dados locais de negócio ainda precisam ser isolados por Tenant.
+O módulo de Pets possui atualmente:
 
-No estado atual, registros persistidos no Room, como Pets e Vacinas, ainda podem ser visualizados por usuários de Tenants diferentes quando utilizam o mesmo dispositivo.
+```text
+Room
+↕
+Supabase
+```
 
-A próxima etapa arquitetural será adicionar `tenantId` às entidades locais e implementar o isolamento dos dados sem perder os registros existentes.
+com suporte a:
+
+- criação local e remota;
+- sincronização de Pets antigos;
+- importação de Pets remotos;
+- edição online;
+- edição offline;
+- exclusão online;
+- exclusão offline;
+- soft delete;
+- atualização remota refletida localmente;
+- exclusão remota refletida localmente;
+- isolamento por Tenant;
+- Row Level Security;
+- sincronização ao retornar para a Home.
+
+O módulo de Vacinas possui:
+
+- persistência local;
+- relacionamento com Pets;
+- isolamento por Tenant;
+- migrations preservando dados existentes.
+
+A sincronização remota de Vacinas ainda não foi implementada.
+
+A sincronização de fotos dos Pets com Supabase Storage também ainda não foi implementada.
+
+O login inicial continua dependendo de conexão com o Supabase. O aplicativo já permite utilizar dados locais após autenticação, mas a restauração completa da sessão e do Tenant para abertura totalmente offline ainda será evoluída.
 
 ---
 
 ### 🚧 Em desenvolvimento
 
-- Isolamento de Pets por Tenant.
-- Isolamento de Vacinas por Tenant.
-- Migration do Room para inclusão de `tenantId`.
-- Sincronização Room ↔ Supabase.
-- Políticas RLS para dados privados de negócio.
+- Sincronização Room ↔ Supabase para Vacinas.
+- RLS para Vacinas.
+- Upload das fotos dos Pets para Supabase Storage.
+- Estratégia avançada de resolução de conflitos baseada em timestamp ou versão.
+- Recuperação de sessão para abertura do app sem conexão.
 - Logout.
-- Gerenciamento e restauração de sessão.
+- Gerenciamento e restauração completa de sessão.
 - Recuperação e redefinição de senha.
 - Estratégia segura para criação de novos usuários.
 - Controle de acesso baseado em roles.
