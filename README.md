@@ -35,10 +35,11 @@ O projeto é desenvolvido como parte do meu portfólio profissional e utiliza pr
 
 Projeto em desenvolvimento ativo.
 
-Atualmente estão implementados os módulos de **Pets** e **Vacinas**, autenticação por e-mail e senha, integração com Supabase e a fundação da arquitetura SaaS Multi-Tenant.
+Atualmente estão implementados os módulos de **Pets** e **Vacinas**, autenticação por e-mail e senha, integração com Supabase, branding dinâmico e a fundação da arquitetura SaaS Multi-Tenant.
 
-O isolamento completo dos dados de negócio por Tenant e a sincronização **Room ↔ Supabase** estão entre as próximas etapas do desenvolvimento.
+O isolamento local de **Pets e Vacinas por Tenant** já está implementado e validado utilizando Room.
 
+As próximas etapas incluem a persistência remota dos dados de negócio no Supabase, aplicação de **Row Level Security (RLS)** nessas tabelas e sincronização **Room ↔ Supabase**.
 ---
 
 ## 🎯 Objetivo
@@ -92,7 +93,7 @@ Clínica Bicho Feliz
 
 Usuários diferentes carregam automaticamente a identidade visual correspondente ao seu Tenant.
 
-> O isolamento dos dados de negócio, como Pets e Vacinas, ainda está em desenvolvimento e será realizado através de `tenantId`, Room e políticas RLS no backend.
+> O isolamento local de Pets e Vacinas já é realizado através de `tenantId` no Room. O isolamento remoto dos dados de negócio será reforçado por políticas RLS no Supabase quando a sincronização com o backend for implementada.
 
 ---
 
@@ -116,6 +117,12 @@ Usuários diferentes carregam automaticamente a identidade visual correspondente
 - Banner dinâmico
 - Fallback visual local do PetLife
 - Validação utilizando múltiplos Tenants
+- Isolamento local de Pets por Tenant
+- Isolamento local de Vacinas por Tenant
+- `tenantId` associado aos dados de negócio
+- Proteção de leitura, alteração e exclusão por Tenant
+- Migrations Room preservando dados existentes
+- Validação real de isolamento entre PetLife e Clínica Bicho Feliz
 
 ### 🐶 Pets
 
@@ -128,6 +135,9 @@ Usuários diferentes carregam automaticamente a identidade visual correspondente
 - Persistência local com Room
 - Tela de detalhes
 - Edição dos dados do pet
+- Isolamento dos Pets por Tenant
+- Exclusão de pet com confirmação
+- Exclusão em cascata dos dados relacionados
 
 ### 💉 Vacinas
 
@@ -137,6 +147,9 @@ Usuários diferentes carregam automaticamente a identidade visual correspondente
 - Relacionamento entre Pets e Vacinas
 - Persistência local com Room
 - Evolução do banco utilizando migrations
+- Isolamento das Vacinas por Tenant
+- Associação automática da vacina ao Tenant autenticado
+- Preservação das vacinas existentes durante migration
 
 ### 🎨 Interface
 
@@ -155,7 +168,9 @@ Usuários diferentes carregam automaticamente a identidade visual correspondente
 - 🔑 Recuperação e redefinição de senha com Supabase Auth
 - 👤 Criação de contas e associação segura ao Tenant
 - 🔐 Controle de permissões por roles
-- 🏢 Isolamento de Pets, Vacinas e demais dados por Tenant
+- 🔐 RLS para Pets, Vacinas e futuros dados de negócio no Supabase
+- 🔄 Sincronização entre Room e Supabase
+- 📴 Estratégia offline-first
 - 🔄 Sincronização entre Room e Supabase
 - 📴 Estratégia offline-first
 - 🩺 Registro e histórico de consultas veterinárias
@@ -303,7 +318,8 @@ PetLife
 │   │   ├── 0001-initial-architecture.md
 │   │   ├── 0002-visual-identity-and-design-system.md
 │   │   ├── 0003-saas-multi-tenant.md
-│   │   └── 0004-authentication-and-tenant-resolution.md
+│   │   ├── 0004-authentication-and-tenant-resolution.md
+│   │   └──0005-tenant-data-isolation-and-sync.md
 │   │
 │   ├── architecture
 │   └── design
@@ -402,7 +418,12 @@ PetLife
 - ✅ Resolução automática do Tenant após login
 - ✅ Teste real com múltiplas empresas
 - ✅ Logo, banner, cores e nome dinâmicos por Tenant
-- 🚧 Isolamento dos dados locais por Tenant
+- ✅ Isolamento local de Pets por Tenant
+- ✅ Isolamento local de Vacinas por Tenant
+- ✅ Migrations Room preservando Pets e Vacinas existentes
+- ✅ Exclusão de Pets com proteção por Tenant
+- 🚧 Persistência remota de Pets e Vacinas no Supabase
+- 🚧 RLS para dados de negócio
 - 🚧 Sincronização Room ↔ Supabase
 
 ---
@@ -421,9 +442,7 @@ A evolução técnica e arquitetural do PetLife é documentada durante o desenvo
 
 Novos ADRs são criados quando decisões arquiteturais relevantes precisam ser registradas.
 
-O próximo ADR previsto é:
-
-- `ADR 0005` — isolamento dos dados por Tenant e estratégia de sincronização Room ↔ Supabase.
+- `docs/adr/0005-tenant-data-isolation-and-sync.md` — isolamento local dos dados por Tenant e direção para sincronização Room ↔ Supabase.
 
 ---
 
