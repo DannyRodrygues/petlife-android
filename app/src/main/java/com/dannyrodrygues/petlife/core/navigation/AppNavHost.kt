@@ -298,6 +298,8 @@ fun AppNavHost(
 
             val vaccineRepository = VaccineRepository(
                 vaccineDao = database.vaccineDao(),
+                petDao = database.petDao(),
+
                 tenantId = tenantId,
             )
 
@@ -335,6 +337,19 @@ fun AppNavHost(
                 onBackClick = {
                     navController.popBackStack()
                 },
+                onSync = {
+                    vaccinesViewModel.syncVaccines()
+                },
+                onDeleteVaccine = { vaccine ->
+                    vaccinesViewModel.deleteVaccine(
+                        vaccine = vaccine,
+                    )
+                },
+                onUpdateVaccine = { vaccine ->
+                    vaccinesViewModel.updateVaccine(
+                        vaccine = vaccine,
+                    )
+                },
             )
         }
 
@@ -355,6 +370,7 @@ fun AppNavHost(
 
             val repository = VaccineRepository(
                 vaccineDao = database.vaccineDao(),
+                petDao = database.petDao(),
                 tenantId = tenantId,
             )
 

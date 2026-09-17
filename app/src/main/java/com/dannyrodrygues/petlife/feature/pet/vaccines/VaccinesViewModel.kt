@@ -9,9 +9,10 @@ import com.dannyrodrygues.petlife.feature.pet.vaccines.data.repository.VaccineRe
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class VaccinesViewModel(
-    vaccineRepository: VaccineRepository,
+    private val vaccineRepository: VaccineRepository,
     petRepository: PetRepository,
     petId: Long,
 ) : ViewModel() {
@@ -33,4 +34,42 @@ class VaccinesViewModel(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = emptyList(),
             )
+
+    fun updateVaccine(
+        vaccine: VaccineEntity,
+    ) {
+        viewModelScope.launch {
+            vaccineRepository.updateVaccine(
+                vaccine = vaccine,
+            )
+        }
+    }
+
+
+    fun syncVaccines() {
+        viewModelScope.launch {
+
+            vaccineRepository
+                .syncUnsyncedVaccinesToRemote()
+
+            vaccineRepository
+                .syncPendingVaccineUpdates()
+
+            vaccineRepository
+                .syncPendingVaccineDeletes()
+
+            vaccineRepository
+                .syncRemoteVaccinesToLocal()
+        }
+    }
+
+    fun deleteVaccine(
+        vaccine: VaccineEntity,
+    ) {
+        viewModelScope.launch {
+            vaccineRepository.deleteVaccine(
+                vaccine = vaccine,
+            )
+        }
+    }
 }

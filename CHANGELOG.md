@@ -101,9 +101,25 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - `VaccineRepository`.
 - ViewModels específicos para Vacinas.
 - Persistência local das vacinas utilizando Room.
+- Persistência remota das vacinas utilizando Supabase PostgreSQL.
 - Evolução do banco através de migrations preservando dados existentes.
+- Inclusão de `remoteId` em `VaccineEntity`.
+- Inclusão de `pendingSync` em `VaccineEntity`.
+- Inclusão de `pendingDelete` em `VaccineEntity`.
+- Índice único local para `remoteId`.
 - Isolamento de Vacinas por Tenant.
 - Associação automática da Vacina ao Tenant autenticado.
+- Associação remota da Vacina ao UUID do respectivo Pet.
+- `VaccineRemoteDataSource`.
+- DTOs remotos para criação, atualização, leitura e soft delete.
+- Mapper entre `VaccineEntity` e DTOs remotos.
+- Conversão de datas entre o formato local e ISO `yyyy-MM-dd`.
+- Swipe horizontal nos cards do histórico.
+- Ações de edição e exclusão reveladas ao arrastar o card.
+- Tooltip orientando o usuário a arrastar o card para editar ou excluir.
+- Edição de Vacinas através de `ModalBottomSheet`.
+- Formulário de edição preenchido automaticamente com os dados atuais.
+- Confirmação antes da exclusão.
 
 #### Arquitetura SaaS Multi-Tenant
 
@@ -134,6 +150,12 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Criação da tabela `brand_configs`.
 - Criação da tabela `profiles`.
 - Criação da tabela remota `public.pets`.
+- Criação da tabela remota `public.vaccines`.
+- Relacionamento remoto entre Vacinas e Pets através de `pet_id`.
+- Índices remotos para `tenant_id`, `pet_id` e combinação Tenant/Pet.
+- Políticas RLS de SELECT, INSERT, UPDATE e DELETE para Vacinas.
+- Validação do Pet pertencente ao mesmo Tenant durante criação e atualização de Vacinas.
+- Trigger PostgreSQL para atualização automática de `updated_at` em Vacinas.
 - Configuração de Row Level Security nas tabelas remotas.
 - Políticas RLS de SELECT, INSERT, UPDATE e DELETE para Pets.
 - Criação do bucket público `tenant-branding`.
@@ -141,9 +163,11 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Armazenamento remoto de logomarca e banner por empresa.
 - Criação de DTOs para Tenant e BrandConfig.
 - Criação de DTOs remotos para Pets.
+- Criação de DTOs remotos para Vacinas.
 - Criação de mappers entre entidades locais e DTOs remotos.
 - Criação do `TenantRemoteDataSource`.
 - Criação do `PetRemoteDataSource`.
+- Criação do `VaccineRemoteDataSource`.
 
 #### Branding remoto
 
@@ -241,9 +265,54 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Exclusão em cascata das Vacinas locais relacionadas ao Pet.
 - Validação real de exclusão offline e posterior sincronização.
 
+#### Sincronização Room ↔ Supabase para Vacinas
+
+- Persistência remota de Vacinas no Supabase.
+- Criação local-first de Vacinas.
+- Envio de Vacinas novas para o Supabase.
+- Armazenamento do UUID remoto em `remoteId`.
+- Sincronização de Vacinas antigas que já existiam no Room.
+- Associação remota da Vacina utilizando o `remoteId` do Pet.
+- Importação para o Room de Vacinas criadas diretamente no Supabase.
+- Prevenção de duplicação através de `remoteId`.
+- Atualização remota de Vacinas editadas no aplicativo.
+- Atualização local de Vacinas alteradas diretamente no Supabase.
+- Conversão de datas utilizando UTC para preservar corretamente datas sem horário.
+- Proteção por `tenantId` durante operações remotas.
+- Sincronização solicitada ao entrar novamente na tela de Vacinas.
+- Ordem de sincronização definida como:
+    1. Vacinas novas;
+    2. edições pendentes;
+    3. exclusões pendentes;
+    4. dados remotos.
+
+#### Edição offline de Vacinas
+
+- Utilização de `pendingSync` para alterações locais.
+- Persistência imediata das edições no Room.
+- Tentativa de UPDATE remoto após alteração local.
+- Manutenção de `pendingSync = true` quando não houver conexão.
+- Reenvio automático de edições pendentes após retorno da conexão.
+- Limpeza de `pendingSync` apenas após confirmação do Supabase.
+- Proteção contra sobrescrita remota enquanto existir edição local pendente.
+- Validação real do fluxo de edição offline e sincronização posterior.
+
+#### Exclusão e soft delete de Vacinas
+
+- Utilização de `pendingDelete` para exclusões locais.
+- Vacinas pendentes de exclusão deixam de aparecer na interface imediatamente.
+- Vacinas sem `remoteId` são removidas diretamente do Room.
+- Vacinas já sincronizadas utilizam soft delete remoto através de `deleted_at`.
+- Preservação temporária do registro local enquanto a exclusão remota estiver pendente.
+- Reenvio automático de exclusões pendentes após retorno da conexão.
+- Remoção física do Room apenas após confirmação do Supabase.
+- Remoção local de Vacinas excluídas diretamente no Supabase.
+- Validação real de exclusão online.
+- Validação real de exclusão offline seguida de sincronização posterior.
+
 #### Controle de timestamps
 
-- Uso de `created_at` e `updated_at` na tabela remota de Pets.
+- Uso de `created_at` e `updated_at` nas tabelas remotas de Pets e Vacinas.
 - Criação de trigger PostgreSQL para atualizar `updated_at` automaticamente.
 - Armazenamento dos timestamps em UTC.
 - Definição de conversão para o fuso local apenas na camada de apresentação.
@@ -294,6 +363,11 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Atualização da cor secundária para o azul da identidade visual.
 - Refatoração dos formulários para reutilização de componentes.
 - Refatoração da interface de Vacinas utilizando componentes reutilizáveis.
+- Cards do histórico de Vacinas passaram a suportar swipe horizontal.
+- Ações de editar e excluir passaram a permanecer ocultas até o gesto de swipe.
+- Adicionado tooltip explicando o gesto de arrastar para a esquerda.
+- Edição de Vacinas passou a utilizar `ModalBottomSheet`.
+- Exclusão de Vacinas passou a utilizar diálogo de confirmação com nome da Vacina e do Pet.
 - Ícones e elementos gráficos passaram a utilizar `MaterialTheme.colorScheme.primary`.
 - Botões principais tiveram largura e altura refinadas por contexto de tela.
 
@@ -346,19 +420,26 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Pets passaram a possuir `pendingDelete`.
 - DAOs passaram a filtrar registros pelo Tenant autenticado.
 - Consultas passaram a ocultar Pets com exclusão pendente.
+- Vacinas passaram a possuir `remoteId`.
+- Vacinas passaram a possuir `pendingSync`.
+- Vacinas passaram a possuir `pendingDelete`.
+- Banco Room evoluído para versão 8.
+- Migration adicionada para preservar Vacinas existentes durante inclusão dos campos de sincronização.
+- Consultas normais de Vacinas passaram a ocultar registros com `pendingDelete`.
+- Índice único criado para `remoteId` das Vacinas.
 
 #### Sincronização
 
-- Criação de Pets passou a utilizar estratégia local-first.
-- Edição de Pets passou a preservar alterações localmente antes do envio remoto.
+- Criação de Pets e Vacinas passou a utilizar estratégia local-first.
+- Edição de Pets e Vacinas passou a preservar alterações localmente antes do envio remoto.
 - Exclusão passou de remoção exclusivamente local para soft delete sincronizado.
 - Dados remotos passaram a atualizar registros locais já existentes.
 - Exclusões remotas passaram a ser refletidas no Room.
 - Alterações locais pendentes passaram a ter prioridade sobre atualizações remotas.
-- Ordem de sincronização definida como:
+- Fluxos de sincronização de Pets e Vacinas passaram a seguir a ordem:
 
 ```text
-1. Pets novos
+1. Registros novos
 2. Edições pendentes
 3. Exclusões pendentes
 4. Dados remotos
@@ -423,6 +504,14 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Campos vazios passaram a impedir autenticação.
 - Senhas incorretas passaram a impedir navegação para a Home.
 - Mensagens de erro passaram a ser apresentadas corretamente.
+- Corrigida ausência de vínculo entre Vacinas locais e UUIDs remotos.
+- Corrigida sincronização de Vacinas existentes antes da integração com Supabase.
+- Corrigida atualização de Vacinas existentes quando alteradas remotamente.
+- Corrigido comportamento de Vacinas excluídas remotamente permanecerem no Room.
+- Corrigido fluxo de edição offline para manter `pendingSync`.
+- Corrigido fluxo de exclusão offline para preservar `remoteId` até confirmação remota.
+- Corrigida possibilidade de sobrescrever alteração local pendente durante sincronização remota.
+- Ajustado disparo da sincronização ao entrar novamente na tela de Vacinas.
 
 #### Multi-Tenant
 
@@ -484,25 +573,16 @@ com suporte a:
 - Row Level Security;
 - sincronização ao retornar para a Home.
 
-O módulo de Vacinas possui:
+O módulo de Vacinas possui atualmente:
 
-- persistência local;
-- relacionamento com Pets;
-- isolamento por Tenant;
-- migrations preservando dados existentes.
-
-A sincronização remota de Vacinas ainda não foi implementada.
-
-A sincronização de fotos dos Pets com Supabase Storage também ainda não foi implementada.
-
-O login inicial continua dependendo de conexão com o Supabase. O aplicativo já permite utilizar dados locais após autenticação, mas a restauração completa da sessão e do Tenant para abertura totalmente offline ainda será evoluída.
-
+```text
+Room
+↕
+Supabase
 ---
 
-### 🚧 Em desenvolvimento
+### 🔧 Em desenvolvimento
 
-- Sincronização Room ↔ Supabase para Vacinas.
-- RLS para Vacinas.
 - Upload das fotos dos Pets para Supabase Storage.
 - Estratégia avançada de resolução de conflitos baseada em timestamp ou versão.
 - Recuperação de sessão para abertura do app sem conexão.
@@ -511,3 +591,4 @@ O login inicial continua dependendo de conexão com o Supabase. O aplicativo já
 - Recuperação e redefinição de senha.
 - Estratégia segura para criação de novos usuários.
 - Controle de acesso baseado em roles.
+- Validação completa da sincronização remota de Vacinas utilizando múltiplos Tenants..

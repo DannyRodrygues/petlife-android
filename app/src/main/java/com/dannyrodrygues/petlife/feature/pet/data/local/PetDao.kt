@@ -151,6 +151,19 @@ interface PetDao {
         tenantId: String,
     ): List<PetEntity>
 
+    @Query(
+        """
+    SELECT * FROM pets
+    WHERE id = :petId
+      AND tenantId = :tenantId
+    LIMIT 1
+    """
+    )
+    suspend fun getPetSnapshotById(
+        petId: Long,
+        tenantId: String,
+    ): PetEntity?
+
     @Update
     suspend fun updatePet(pet: PetEntity)
 

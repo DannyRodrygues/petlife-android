@@ -19,6 +19,7 @@ import com.dannyrodrygues.petlife.feature.pet.data.local.PetEntity
     indices = [
         Index(value = ["petId"]),
         Index(value = ["tenantId", "petId"]),
+        Index(value = ["remoteId"], unique = true),
     ],
 )
 data class VaccineEntity(
@@ -28,7 +29,15 @@ data class VaccineEntity(
 
     val tenantId: String = "",
 
+    /*
+     * ID local do Pet no Room.
+     */
     val petId: Long,
+
+    /*
+     * UUID da Vacina correspondente no Supabase.
+     */
+    val remoteId: String? = null,
 
     val name: String,
 
@@ -39,4 +48,14 @@ data class VaccineEntity(
     val nextDoseDateMillis: Long?,
 
     val observations: String?,
+
+    /*
+     * Indica uma edição ainda não sincronizada.
+     */
+    val pendingSync: Boolean = false,
+
+    /*
+     * Indica uma exclusão ainda não sincronizada.
+     */
+    val pendingDelete: Boolean = false,
 )

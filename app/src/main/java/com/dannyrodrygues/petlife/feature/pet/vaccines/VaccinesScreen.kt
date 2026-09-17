@@ -15,12 +15,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -30,6 +36,7 @@ import com.dannyrodrygues.petlife.R
 import com.dannyrodrygues.petlife.core.components.PetLifePrimaryButton
 import com.dannyrodrygues.petlife.feature.pet.data.local.PetEntity
 import com.dannyrodrygues.petlife.feature.pet.vaccines.data.local.VaccineEntity
+import com.dannyrodrygues.petlife.feature.pet.vaccines.edit.EditVaccineSheet
 import com.dannyrodrygues.petlife.ui.theme.PetLifeSpacing
 import java.time.Instant
 import java.time.LocalDate
@@ -41,8 +48,23 @@ fun VaccinesScreen(
     vaccines: List<VaccineEntity>,
     onAddVaccineClick: () -> Unit,
     onBackClick: () -> Unit,
+    onSync: () -> Unit = {},
+    onDeleteVaccine: (VaccineEntity) -> Unit = {},
+    onUpdateVaccine: (VaccineEntity) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
+
+    var vaccineToDelete by remember {
+        mutableStateOf<VaccineEntity?>(null)
+    }
+    var vaccineToEdit by remember {
+        mutableStateOf<VaccineEntity?>(null)
+    }
+
+    LaunchedEffect(Unit) {
+        onSync()
+    }
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = MaterialTheme.colorScheme.background,
@@ -200,6 +222,12 @@ fun VaccinesScreen(
 
                             VaccineHistoryCard(
                                 vaccine = vaccine,
+                                onEditClick = {
+                                    vaccineToEdit = vaccine
+                                },
+                                onDeleteClick = {
+                                    vaccineToDelete = vaccine
+                                },
                             )
 
                             Spacer(
@@ -234,5 +262,68 @@ fun VaccinesScreen(
                 )
             }
         }
+    }
+
+    /*
+    * Confirmação de exclusão da vacina
+    */
+
+    vaccineToEdit?.let { vaccine ->
+
+        EditVaccineSheet(
+            vaccine = vaccine,
+            onDismiss = {
+                vaccineToEdit = null
+            },
+            onSave = { updatedVaccine ->
+                onUpdateVaccine(updatedVaccine)
+                vaccineToEdit = null
+            },
+        )
+    }
+
+    vaccineToDelete?.let { vaccine ->
+
+        AlertDialog(
+            onDismissRequest = {
+                vaccineToDelete = null
+            },
+            title = {
+                Text(
+                    text = "Excluir vacina?",
+                )
+            },
+            text = {
+                Text(
+                    text = "Deseja realmente excluir a vacina " +
+                            "\"${vaccine.name}\" de ${pet?.name ?: "este pet"}?",
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        onDeleteVaccine(vaccine)
+                        vaccineToDelete = null
+                    },
+                ) {
+                    Text(
+                        text = "Excluir",
+                        color = MaterialTheme.colorScheme.error,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        vaccineToDelete = null
+                    },
+                ) {
+                    Text(
+                        text = "Cancelar",
+                    )
+                }
+            },
+        )
     }
 }

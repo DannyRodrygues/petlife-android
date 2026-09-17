@@ -22,6 +22,7 @@ object PetDatabaseProvider {
                     PetDatabase.MIGRATION_4_5,
                     PetDatabase.MIGRATION_5_6,
                     PetDatabase.MIGRATION_6_7,
+                    PetDatabase.MIGRATION_7_8,
 
                     )
                 .build()

@@ -31,7 +31,7 @@ O projeto é desenvolvido como parte do meu portfólio profissional e utiliza pr
 
 ---
 
-## 🚧 Status do projeto
+## 📌 Status do projeto
 
 Projeto em desenvolvimento ativo.
 
@@ -42,18 +42,20 @@ Atualmente estão implementados:
 - autenticação real com Supabase Auth;
 - arquitetura SaaS Multi-Tenant;
 - branding dinâmico por empresa;
-- isolamento local de Pets e Vacinas por Tenant;
-- persistência remota de Pets no Supabase;
-- Row Level Security para Pets;
+- isolamento local e remoto de Pets e Vacinas por Tenant;
+- persistência remota de Pets e Vacinas no Supabase;
+- Row Level Security para Pets e Vacinas;
 - sincronização bidirecional de Pets entre Room e Supabase;
+- sincronização bidirecional de Vacinas entre Room e Supabase;
 - criação, edição e exclusão offline de Pets;
-- sincronização de alterações realizadas remotamente.
+- criação, edição e exclusão offline de Vacinas;
+- sincronização de alterações realizadas remotamente;
+- soft delete remoto com `deleted_at`;
+- proteção de alterações locais pendentes através de `pendingSync` e `pendingDelete`.
 
-O módulo de **Pets** já possui integração completa entre Room e Supabase para os principais fluxos de criação, atualização, exclusão e sincronização.
+Os módulos de **Pets** e **Vacinas** já possuem integração entre Room e Supabase para os principais fluxos de criação, atualização, exclusão e sincronização offline-first.
 
-O módulo de **Vacinas** já possui isolamento local por Tenant, mas sua sincronização remota ainda será implementada.
-
----
+O módulo de Vacinas também possui edição e exclusão diretamente no histórico através de gesto horizontal nos cards, edição em `ModalBottomSheet` e confirmação antes da exclusão.
 
 ## 🎯 Objetivo
 
@@ -149,6 +151,7 @@ A separação entre PetLife e Clínica Bicho Feliz foi validada tanto localmente
 - Isolamento local de Pets por Tenant
 - Isolamento local de Vacinas por Tenant
 - Isolamento remoto de Pets por Tenant
+- Isolamento remoto de Vacinas por Tenant
 - `tenantId` associado aos dados locais
 - `tenant_id` associado aos dados remotos
 - Proteção de leitura, criação, alteração e exclusão por Tenant
@@ -193,10 +196,32 @@ A separação entre PetLife e Clínica Bicho Feliz foi validada tanto localmente
 - Controle de próximas doses
 - Relacionamento entre Pets e Vacinas
 - Persistência local com Room
+- Persistência remota com Supabase PostgreSQL
 - Evolução do banco utilizando migrations
 - Isolamento das Vacinas por Tenant
 - Associação automática da vacina ao Tenant autenticado
-- Preservação das vacinas existentes durante migration
+- Associação remota através do UUID do Pet
+- Preservação das vacinas existentes durante migrations
+- Identidade local e remota através de `id` e `remoteId`
+- Row Level Security no Supabase
+- Sincronização Room → Supabase
+- Sincronização Supabase → Room
+- Importação de Vacinas criadas remotamente
+- Atualização local de Vacinas alteradas remotamente
+- Criação offline com sincronização posterior
+- Edição offline com `pendingSync`
+- Exclusão offline com `pendingDelete`
+- Soft delete remoto através de `deleted_at`
+- Remoção local de Vacinas excluídas remotamente
+- Atualização automática de `updated_at`
+- Proteção de alterações locais pendentes durante sincronização remota
+- Sincronização ao entrar novamente na tela de Vacinas
+- Swipe horizontal nos cards do histórico
+- Ações de editar e excluir reveladas pelo swipe
+- Tooltip orientando o gesto de arrastar
+- Edição através de `ModalBottomSheet`
+- Formulário de edição preenchido com os dados atuais
+- Confirmação antes da exclusão
 - Exclusão local em cascata quando o Pet é removido
 
 ### 🎨 Interface
@@ -297,19 +322,30 @@ sem pendências
 
 ---
 
-## 📴 Estratégia offline
+## 💉 Sincronização de Vacinas
 
-Os principais fluxos de Pets já funcionam com comportamento offline-first.
+O módulo de Vacinas utiliza a mesma estratégia **local-first** adotada para Pets.
 
-Após um login válido e carregamento do Tenant, o usuário pode continuar utilizando os dados locais do Room sem conexão.
+O Room continua sendo a fonte utilizada pela interface, enquanto o Supabase mantém a representação remota dos registros e aplica o isolamento por Tenant através de RLS.
 
-Atualmente são suportados:
+Cada Vacina possui:
 
 ```text
-criação offline
-edição offline
-exclusão offline
-sincronização posterior
+id
+→ identificador local Long do Room
+
+remoteId
+→ UUID da vacina no Supabase
+
+petId
+→ identificador local do Pet
+
+tenantId
+→ Tenant proprietário do registro
+
+---
+
+
 ```
 
 O login inicial ainda depende de conexão com o Supabase.
@@ -317,7 +353,19 @@ O login inicial ainda depende de conexão com o Supabase.
 Uma evolução futura deverá permitir reabrir o aplicativo offline utilizando uma sessão previamente autenticada e o último Tenant resolvido localmente.
 
 ---
+## 📡 Estratégia offline
+Os principais fluxos de **Pets e Vacinas** já funcionam com comportamento offline-first.
 
+Após um login válido e carregamento do Tenant, o usuário pode continuar utilizando os dados locais do Room sem conexão.
+
+Atualmente são suportados:
+
+- criação offline
+- edição offline
+- exclusão offline
+- sincronização posterior
+
+---
 ## 🚀 Funcionalidades planejadas
 
 - 🚪 Logout e gerenciamento completo de sessão
@@ -325,9 +373,6 @@ Uma evolução futura deverá permitir reabrir o aplicativo offline utilizando u
 - 👤 Criação de contas e associação segura ao Tenant
 - 🔐 Controle de permissões por roles
 - 📴 Recuperação de sessão para abertura do app offline
-- 💉 Persistência remota de Vacinas no Supabase
-- 💉 RLS para Vacinas
-- 🔄 Sincronização Room ↔ Supabase para Vacinas
 - 🖼️ Upload das fotos dos Pets para Supabase Storage
 - 🔀 Estratégia avançada de resolução de conflitos por timestamp ou versão
 - 🩺 Registro e histórico de consultas veterinárias
@@ -427,7 +472,7 @@ Repository
 
 ### Sincronização
 
-A ordem atual da sincronização de Pets é:
+A ordem atual da sincronização utilizada nos módulos offline-first de Pets e Vacinas segue o mesmo princípio:
 
 ```text
 1. Pets novos
@@ -489,11 +534,19 @@ PetLife
 │       ├── feature
 │       │   ├── auth
 │       │   ├── home
-│       │   ├── pet
-│       │   └── vaccine
-│       │
-│       └── ui
-│           └── theme
+│       │   └── pet
+│       │       ├── add
+│       │       ├── data
+│       │       ├── details
+│       │       ├── edit
+│       │       └── vaccines
+│       │           ├── add
+│       │           ├── data
+│       │           │   ├── local
+│       │           │   ├── mapper
+│       │           │   ├── remote
+│       │           │   └── repository
+│       │           └── edit
 │
 ├── docs
 │   ├── adr
@@ -618,7 +671,21 @@ PetLife
 - ✅ Trigger automático para `updated_at`
 - ✅ Sincronização ao retornar para a Home
 - ✅ Validação dos fluxos nos Tenants PetLife e Clínica Bicho Feliz
-- 🚧 Sincronização remota de Vacinas
+- ✅ Persistência remota de Vacinas no Supabase
+- ✅ RLS para Vacinas
+- ✅ Identidade local/remota de Vacinas com `remoteId`
+- ✅ Sincronização Room → Supabase para Vacinas
+- ✅ Sincronização Supabase → Room para Vacinas
+- ✅ Importação de Vacinas criadas remotamente
+- ✅ Edição remota de Vacinas
+- ✅ Edição offline de Vacinas com `pendingSync`
+- ✅ Soft delete remoto de Vacinas com `deleted_at`
+- ✅ Exclusão offline de Vacinas com `pendingDelete`
+- ✅ Exclusão remota refletida no Room
+- ✅ Atualizações remotas de Vacinas refletidas no Room
+- ✅ Swipe para editar e excluir Vacinas
+- ✅ Edição de Vacinas através de ModalBottomSheet
+- ✅ Validação completa dos fluxos online e offline de Vacinas
 - 🚧 Upload das fotos dos Pets para Supabase Storage
 - 🚧 Estratégia avançada de resolução de conflitos
 - 🚧 Recuperação de sessão para funcionamento totalmente offline

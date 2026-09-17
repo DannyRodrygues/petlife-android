@@ -12,7 +12,7 @@ import com.dannyrodrygues.petlife.feature.pet.vaccines.data.local.VaccineEntity
         PetEntity::class,
         VaccineEntity::class,
     ],
-    version = 7,
+    version = 8,
     exportSchema = false,
 )
 abstract class PetDatabase : RoomDatabase() {
@@ -192,6 +192,39 @@ abstract class PetDatabase : RoomDatabase() {
                     """
             ALTER TABLE pets
             ADD COLUMN pendingDelete INTEGER NOT NULL DEFAULT 0
+            """.trimIndent(),
+                )
+            }
+        }
+
+        val MIGRATION_7_8 = object : Migration(7, 8) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+
+                db.execSQL(
+                    """
+            ALTER TABLE vaccines
+            ADD COLUMN remoteId TEXT
+            """.trimIndent(),
+                )
+
+                db.execSQL(
+                    """
+            ALTER TABLE vaccines
+            ADD COLUMN pendingSync INTEGER NOT NULL DEFAULT 0
+            """.trimIndent(),
+                )
+
+                db.execSQL(
+                    """
+            ALTER TABLE vaccines
+            ADD COLUMN pendingDelete INTEGER NOT NULL DEFAULT 0
+            """.trimIndent(),
+                )
+
+                db.execSQL(
+                    """
+            CREATE UNIQUE INDEX IF NOT EXISTS index_vaccines_remoteId
+            ON vaccines(remoteId)
             """.trimIndent(),
                 )
             }
