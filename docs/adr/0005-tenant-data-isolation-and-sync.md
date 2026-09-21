@@ -227,13 +227,16 @@ A segurança remota não depende apenas dos filtros enviados pelo aplicativo.
 
 O Android informa `tenant_id`, IDs remotos e demais filtros necessários, mas a autorização continua sendo responsabilidade do Supabase por meio de RLS.
 
-### Observação de segurança sobre Vacinas
+### Validação do relacionamento Vacina–Pet
 
-A política atual de Vacinas protege o `tenant_id` pelo Tenant autenticado, porém a validação do relacionamento entre `vaccines.pet_id` e o Tenant do Pet ainda precisa ser revisada antes de produção.
+As políticas RLS de INSERT e UPDATE de Vacinas validam não apenas o Tenant autenticado, mas também o relacionamento entre a Vacina e o Pet informado.
 
-A condição de validação do Pet atualmente existente no banco não deve ser considerada suficiente para garantir, sozinha, que o Pet relacionado pertença ao mesmo Tenant da Vacina.
+A regra exige:
 
-Essa revisão permanece como pendência de endurecimento da política RLS.
+```text
+pet.id = vaccines.pet_id
+pet.tenant_id = vaccines.tenant_id
+pet.deleted_at IS NULL
 
 ---
 
@@ -834,23 +837,6 @@ Uma evolução futura poderá permitir reabrir o aplicativo offline utilizando u
 
 Nenhuma senha deverá ser armazenada localmente para esse objetivo.
 
-### Política RLS do relacionamento Vacina–Pet
-
-Embora `tenant_id` de Vacinas esteja protegido pelo Tenant autenticado, a política que valida o Pet relacionado deve ser revisada para garantir explicitamente que:
-
-```text
-vaccines.tenant_id = pets.tenant_id
-```
-
-ou regra equivalente seja aplicada corretamente.
-
-Essa revisão é necessária antes de considerar a política pronta para produção.
-
-### Data obrigatória de aplicação da Vacina
-
-No backend, `application_date` é obrigatória.
-
-A interface atual ainda deve ser alinhada para tornar essa obrigatoriedade explícita também na validação do formulário, evitando que um registro local sem data só falhe no momento da sincronização remota.
 
 ---
 
@@ -893,4 +879,4 @@ O aplicativo mantém separação entre empresas tanto no banco local quanto no b
 
 O PetLife passa a possuir uma base reutilizável de sincronização offline-first que poderá ser aplicada aos próximos módulos de negócio, como Consultas, Medicamentos e Histórico de Peso.
 
-A resolução avançada de conflitos, a idempotência de criação, a revisão da política RLS de Vacinas, a validação obrigatória da data de aplicação, a sincronização de fotos e a restauração completa da sessão para abertura totalmente offline permanecem como evoluções futuras.
+A resolução avançada de conflitos, a idempotência de criação, a sincronização de fotos e a restauração completa da sessão para abertura totalmente offline permanecem como evoluções futuras.

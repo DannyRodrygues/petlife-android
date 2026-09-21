@@ -76,6 +76,10 @@ fun EditVaccineSheet(
         mutableStateOf(false)
     }
 
+    var applicationDateError by rememberSaveable(vaccine.id) {
+        mutableStateOf(false)
+    }
+
     var showApplicationDatePicker by rememberSaveable {
         mutableStateOf(false)
     }
@@ -204,6 +208,7 @@ fun EditVaccineSheet(
              */
             PetFieldLabel(
                 text = "Data da aplicação",
+                required = true,
             )
 
             Spacer(
@@ -217,9 +222,24 @@ fun EditVaccineSheet(
                     formatVaccineDate(it)
                 }.orEmpty(),
                 onClick = {
+                    applicationDateError = false
                     showApplicationDatePicker = true
                 },
             )
+
+            if (applicationDateError) {
+                Spacer(
+                    modifier = Modifier.height(
+                        PetLifeSpacing.ExtraSmall,
+                    ),
+                )
+
+                Text(
+                    text = "Informe a data da aplicação.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
 
             Spacer(
                 modifier = Modifier.height(
@@ -290,7 +310,13 @@ fun EditVaccineSheet(
 
                     nameError = name.isBlank()
 
-                    if (!nameError) {
+                    applicationDateError =
+                        applicationDateMillis == null
+
+                    if (
+                        !nameError &&
+                        !applicationDateError
+                    ) {
 
                         onSave(
                             vaccine.copy(
@@ -342,6 +368,9 @@ fun EditVaccineSheet(
                         applicationDateMillis =
                             applicationDatePickerState
                                 .selectedDateMillis
+
+                        applicationDateError =
+                            applicationDateMillis == null
 
                         showApplicationDatePicker = false
                     },

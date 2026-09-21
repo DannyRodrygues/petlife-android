@@ -77,6 +77,10 @@ fun AddVaccineScreen(
         mutableStateOf(false)
     }
 
+    var applicationDateError by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     var showApplicationDatePicker by rememberSaveable {
         mutableStateOf(false)
     }
@@ -200,6 +204,7 @@ fun AddVaccineScreen(
          */
         PetFieldLabel(
             text = "Data da aplicação",
+            required = true,
         )
 
         Spacer(
@@ -211,9 +216,22 @@ fun AddVaccineScreen(
                 formatVaccineDate(it)
             }.orEmpty(),
             onClick = {
+                applicationDateError = false
                 showApplicationDatePicker = true
             },
         )
+
+        if (applicationDateError) {
+            Spacer(
+                modifier = Modifier.height(PetLifeSpacing.ExtraSmall),
+            )
+
+            Text(
+                text = "Informe a data da aplicação.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.error,
+            )
+        }
 
         Spacer(
             modifier = Modifier.height(PetLifeSpacing.Medium),
@@ -273,8 +291,13 @@ fun AddVaccineScreen(
             onClick = {
 
                 nameError = name.isBlank()
+                applicationDateError =
+                    applicationDateMillis == null
 
-                if (!nameError) {
+                if (
+                    !nameError &&
+                    !applicationDateError
+                ) {
 
                     onSaveClick(
                         name.trim(),
@@ -319,6 +342,9 @@ fun AddVaccineScreen(
 
                         applicationDateMillis =
                             applicationDatePickerState.selectedDateMillis
+
+                        applicationDateError =
+                            applicationDateMillis == null
 
                         showApplicationDatePicker = false
                     },

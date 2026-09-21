@@ -120,6 +120,9 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Edição de Vacinas através de `ModalBottomSheet`.
 - Formulário de edição preenchido automaticamente com os dados atuais.
 - Confirmação antes da exclusão.
+- Data de aplicação passou a ser obrigatória no cadastro de Vacinas.
+- Data de aplicação passou a ser obrigatória também na edição de Vacinas.
+- Feedback visual exibido quando a data de aplicação obrigatória não é informada.
 
 #### Arquitetura SaaS Multi-Tenant
 
@@ -496,14 +499,6 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Ajustado layout do histórico de Vacinas.
 - Corrigido relacionamento e carregamento das Vacinas associadas ao Pet.
 - Corrigido isolamento de Vacinas por Tenant.
-
-#### Autenticação
-
-- Corrigido estado de sucesso do login que poderia provocar navegação sem uma nova autenticação.
-- Adicionado consumo do evento de sucesso através de `consumeLoginSuccess()`.
-- Campos vazios passaram a impedir autenticação.
-- Senhas incorretas passaram a impedir navegação para a Home.
-- Mensagens de erro passaram a ser apresentadas corretamente.
 - Corrigida ausência de vínculo entre Vacinas locais e UUIDs remotos.
 - Corrigida sincronização de Vacinas existentes antes da integração com Supabase.
 - Corrigida atualização de Vacinas existentes quando alteradas remotamente.
@@ -512,6 +507,20 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Corrigido fluxo de exclusão offline para preservar `remoteId` até confirmação remota.
 - Corrigida possibilidade de sobrescrever alteração local pendente durante sincronização remota.
 - Ajustado disparo da sincronização ao entrar novamente na tela de Vacinas.
+- Corrigida validação da data de aplicação para impedir salvamento sem `application_date`.
+- Corrigida política RLS de INSERT de Vacinas para garantir que o Pet pertença ao mesmo Tenant.
+- Corrigida política RLS de UPDATE de Vacinas para garantir que o Pet pertença ao mesmo Tenant.
+- Validado cadastro de Vacina após endurecimento da RLS.
+- Validada edição de Vacina após endurecimento da RLS.
+
+#### Autenticação
+
+- Corrigido estado de sucesso do login que poderia provocar navegação sem uma nova autenticação.
+- Adicionado consumo do evento de sucesso através de `consumeLoginSuccess()`.
+- Campos vazios passaram a impedir autenticação.
+- Senhas incorretas passaram a impedir navegação para a Home.
+- Mensagens de erro passaram a ser apresentadas corretamente.
+
 
 #### Multi-Tenant
 
