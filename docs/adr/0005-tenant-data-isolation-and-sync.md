@@ -724,10 +724,17 @@ Pets pertencentes a um Tenant permanecem isolados dos Pets pertencentes ao outro
 
 Vacinas também possuem `tenantId` local, `tenant_id` remoto e políticas RLS próprias.
 
-A sincronização remota completa de Vacinas foi validada no Tenant PetLife, incluindo criação, atualização, exclusão, operações offline e alterações realizadas diretamente no Supabase.
+A sincronização remota de Vacinas foi validada nos Tenants PetLife e Clínica Bicho Feliz.
 
-A validação equivalente do ciclo completo de Vacinas utilizando também a Clínica Bicho Feliz permanece como teste adicional antes de considerar esse cenário totalmente validado entre múltiplos Tenants.
+Foram validados nos dois ambientes:
 
+```text
+criação
+edição
+exclusão
+vínculo correto com o Pet
+vínculo correto com o Tenant
+soft delete remoto
 ---
 
 ## Estratégia offline atual

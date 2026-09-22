@@ -335,6 +335,11 @@ O projeto encontra-se em desenvolvimento ativo. Enquanto não houver uma primeir
 - Validação de Pets isolados localmente por Tenant.
 - Validação de Pets isolados remotamente por Tenant.
 - Validação de criação, edição e exclusão sincronizadas nos dois Tenants.
+- Validação de criação, edição e exclusão de Vacinas no Tenant PetLife.
+- Validação de criação, edição e exclusão de Vacinas no Tenant Clínica Bicho Feliz.
+- Validação do vínculo correto entre Vacina, Pet e Tenant no Supabase.
+- Validação de isolamento de Vacinas entre PetLife e Clínica Bicho Feliz.
+- Confirmação de que Vacinas de um Tenant não são exibidas no outro Tenant.
 
 #### Documentação
 

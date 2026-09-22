@@ -158,6 +158,8 @@ A separação entre PetLife e Clínica Bicho Feliz foi validada tanto localmente
 - Row Level Security no Supabase
 - Migrations Room preservando dados existentes
 - Validação real de isolamento entre PetLife e Clínica Bicho Feliz
+- CRUD remoto de Vacinas validado nos Tenants PetLife e Clínica Bicho Feliz
+- Isolamento de Vacinas validado nos dois sentidos entre os Tenants
 
 ### 🐶 Pets
 
